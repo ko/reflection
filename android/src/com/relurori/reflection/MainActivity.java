@@ -18,7 +18,10 @@ import android.hardware.usb.UsbManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +33,7 @@ public class MainActivity extends Activity {
 	ListView deviceListView;
 	ArrayAdapter mArrayAdapter;
 	ArrayList<String> deviceArrayList;
+	Button button;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,44 @@ public class MainActivity extends Activity {
 		mArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,  
                 deviceArrayList);
 		
+		deviceListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				
+				TextView tv = (TextView)findViewById(R.id.sourceDevice);
+				if (tv.getText().equals("")) {
+					tv.setText((String)parent.getItemAtPosition(position));
+					return;
+				}
+				
+				tv = (TextView)findViewById(R.id.destinationDevice);
+				if (tv.getText().equals("")) {
+					tv.setText((String)parent.getItemAtPosition(position));
+					return;
+				}
+			}
+		});
+		
+		button = (Button)findViewById(R.id.clearDestinationDevice);
+		button.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				TextView tv = (TextView)findViewById(R.id.destinationDevice);
+				tv.setText("");
+			}
+		});
+		
+		button = (Button)findViewById(R.id.clearSourceDevice);
+		button.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				TextView tv = (TextView)findViewById(R.id.sourceDevice);
+				tv.setText("");
+			}
+		});
 	}
 
 	public void populateStorageList()

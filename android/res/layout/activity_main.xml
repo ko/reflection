@@ -8,20 +8,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-
-    <Button
-        android:id="@+id/button1"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1"
-        android:text="Button" />
 
     <Button
         android:id="@+id/button2"
@@ -38,8 +24,83 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/button2"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/button1" >
+        android:layout_below="@+id/destinationHSV" />
 
-    </ListView>
+    <HorizontalScrollView
+        android:id="@+id/sourceHSV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true" 
+		android:layout_toLeftOf="@+id/clearSourceDevice" >
+        
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+            
+		    <TextView
+		        android:id="@+id/from"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:textAppearance="?android:attr/textAppearanceLarge"
+		        android:text="From" />
+		    
+		    <TextView
+		        android:id="@+id/sourceDevice"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="15dp"
+		        android:textAppearance="?android:attr/textAppearanceLarge"
+		        android:text="" />
+	    </LinearLayout>
+	</HorizontalScrollView>
+
+    <HorizontalScrollView
+        android:id="@+id/destinationHSV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/sourceHSV"
+        android:layout_below="@+id/sourceHSV" 
+        android:layout_toLeftOf="@+id/clearDestinationDevice" >
+	    
+	    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+	            
+		    <TextView
+		        android:id="@+id/to"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:textAppearance="?android:attr/textAppearanceLarge"
+		        android:text="To" />
+		    
+		    <TextView
+		        android:id="@+id/destinationDevice"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="42dp"
+		        android:textAppearance="?android:attr/textAppearanceLarge"
+		        android:text="" />
+	    </LinearLayout>
+	</HorizontalScrollView>
+	
+    <Button
+        android:id="@+id/clearSourceDevice"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/sourceHSV"
+        android:layout_alignBottom="@+id/sourceHSV"
+        android:layout_alignParentRight="true"
+        android:text="Clear" />
+
+    <Button
+        android:id="@+id/clearDestinationDevice"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/destinationHSV"
+        android:layout_alignBottom="@+id/destinationHSV"
+        android:layout_alignParentRight="true"
+        android:text="Clear" />
 
 </RelativeLayout>
