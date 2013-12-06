@@ -1,6 +1,7 @@
 package com.relurori.reflection;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -87,6 +88,27 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				TextView tv = (TextView)findViewById(R.id.sourceDevice);
 				tv.setText("");
+			}
+		});
+		
+		button = (Button)findViewById(R.id.buttonSync);
+		button.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				TextView tv;
+				tv = (TextView)findViewById(R.id.destinationDevice);
+				String dstUri = tv.getText().toString();
+				tv = (TextView)findViewById(R.id.sourceDevice);
+				String srcUri = tv.getText().toString();
+				File src = new File(srcUri);
+				File dst = new File(dstUri);
+				try {
+					FileUtils.CopyDirectory(src, dst, true);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 	}
