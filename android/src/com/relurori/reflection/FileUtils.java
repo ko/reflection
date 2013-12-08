@@ -20,8 +20,10 @@ public class FileUtils {
 	public static boolean FileIsDuplicate(File src, File dst) {
 		boolean result = false;
 		
-		if (calculateMd5(src) == calculateMd5(dst)) {
-			result = true;
+		if (dst.exists()) {
+			if (calculateMd5(src) == calculateMd5(dst)) {
+				result = true;
+			}
 		}
 		
 		return result;
@@ -109,5 +111,10 @@ public class FileUtils {
 		}
 		
 		
+	}
+
+	public static int FileCountToCopy(File src, File dst) {
+		int fileCount = 0;
+		return fileCount;
 	}
 }

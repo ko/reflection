@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -103,12 +105,8 @@ public class MainActivity extends Activity {
 				String srcUri = tv.getText().toString();
 				File src = new File(srcUri);
 				File dst = new File(dstUri);
-				try {
-					FileUtils.CopyDirectory(src, dst, true);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				Context ctx = MainActivity.this;
+				new CopyFilesAsync(ctx, src, dst).execute();
 			}
 		});
 	}
@@ -127,5 +125,42 @@ public class MainActivity extends Activity {
 	    }
 
 	    deviceListView.setAdapter(mArrayAdapter);
+	}
+	
+	class CopyFilesAsync extends AsyncTask<Void,Integer,Void> {
+		
+		private ProgressDialog dialog;
+		File src, dst;
+		Context context;
+		
+		public CopyFilesAsync(Context ctx, File sFile, File dFile) {
+			src = sFile;
+			dst = dFile;
+			context = ctx;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			dialog = new ProgressDialog(context);
+			dialog.setMessage("Copying...");
+			dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+			dialog.show();
+		}
+		
+		@Override
+		protected Void doInBackground(Void... voids) {
+			try {
+				int progress = FileUtils.FileCountToCopy(src, dst);
+				publishProgress(progress);
+				FileUtils.CopyDirectory(src, dst, true);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		protected void onProgressUpdate(Integer...integers) {
+			dialog.setProgress(integers[0]);
+		}
 	}
 }
