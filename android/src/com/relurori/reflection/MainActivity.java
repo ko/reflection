@@ -2,10 +2,13 @@ package com.relurori.reflection;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -103,8 +106,15 @@ public class MainActivity extends Activity {
 				String dstUri = tv.getText().toString();
 				tv = (TextView)findViewById(R.id.sourceDevice);
 				String srcUri = tv.getText().toString();
-				File src = new File(srcUri);
-				File dst = new File(dstUri);
+				File src = null;
+				File dst = null;
+				try {
+					src = new File(new URI(srcUri));
+					dst = new File(new URI(dstUri));
+				} catch (URISyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				Context ctx = MainActivity.this;
 				new CopyFilesAsync(ctx, src, dst).execute();
 			}
@@ -120,10 +130,9 @@ public class MainActivity extends Activity {
 	    File[] files = rootDir.listFiles();
 	    for (File file : files) {
 	    	if (file.listFiles() != null) {
-	    		deviceArrayList.add(file.toURI().toString() + "|" + file.listFiles().length);
+	    		deviceArrayList.add(file.toURI().toString() /*+ "|" + file.listFiles().length */);
 	    	}
 	    }
-
 	    deviceListView.setAdapter(mArrayAdapter);
 	}
 	
@@ -149,6 +158,11 @@ public class MainActivity extends Activity {
 		
 		@Override
 		protected Void doInBackground(Void... voids) {
+
+			int progress = FileUtils.FileCountToCopy(src, dst);
+			Log.d(TAG,"doInBackground|fileCount=" + progress);
+			publishProgress(progress);
+			/*
 			try {
 				int progress = FileUtils.FileCountToCopy(src, dst);
 				publishProgress(progress);
@@ -156,6 +170,8 @@ public class MainActivity extends Activity {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			*/
+			
 			return null;
 		}
 		

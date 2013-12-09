@@ -19,9 +19,18 @@ public class FileUtils {
 	
 	public static boolean FileIsDuplicate(File src, File dst) {
 		boolean result = false;
+		String smd5, dmd5;
 		
+		if (src.isDirectory() || dst.isDirectory()) {
+			return false;
+		}
+		
+		Log.d(TAG,"FileIsDuplicate|src=" + src + ",dst=" + dst);
 		if (dst.exists()) {
-			if (calculateMd5(src) == calculateMd5(dst)) {
+			smd5 = calculateMd5(src);
+			dmd5 = calculateMd5(dst);
+			Log.d(TAG,"FileIsDuplicate|sMd5=" + smd5 + ",dMd5=" + dmd5);
+			if (smd5 == dmd5) {
 				result = true;
 			}
 		}
@@ -109,12 +118,19 @@ public class FileUtils {
 			in.close();
 			out.close();
 		}
-		
-		
 	}
 
 	public static int FileCountToCopy(File src, File dst) {
 		int fileCount = 0;
+
+		if (FileIsDuplicate(src,dst))
+			return 0;
+
 		return fileCount;
+	}
+	
+	public static File[] GetFilesToCopy(File src, File dst) {
+		
+		return null;
 	}
 }
