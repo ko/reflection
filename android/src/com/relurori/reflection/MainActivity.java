@@ -141,11 +141,13 @@ public class MainActivity extends Activity {
 		private ProgressDialog dialog;
 		File src, dst;
 		Context context;
+		FileCopy fileFunc;
 		
 		public CopyFilesAsync(Context ctx, File sFile, File dFile) {
 			src = sFile;
 			dst = dFile;
 			context = ctx;
+			fileFunc = new FileCopy(src,dst);
 		}
 
 		@Override
@@ -159,7 +161,7 @@ public class MainActivity extends Activity {
 		@Override
 		protected Void doInBackground(Void... voids) {
 
-			int progress = FileUtils.FileCountToCopy(src, dst);
+			int progress = fileFunc.getFilesToCopyCount();
 			Log.d(TAG,"doInBackground|fileCount=" + progress);
 			publishProgress(progress);
 			/*

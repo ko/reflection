@@ -10,6 +10,8 @@ import java.io.OutputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.util.Log;
 
@@ -17,18 +19,26 @@ public class FileUtils {
 
 	private static final String TAG = FileUtils.class.getSimpleName();
 	
-	public static boolean FileIsDuplicate(File src, File dst) {
+	File src;
+	File dst;
+	
+	public FileUtils(File source, File destination) {
+		src = source;
+		dst = destination;
+	}
+	
+	public static boolean FileIsDuplicate(File source, File destination) {
 		boolean result = false;
 		String smd5, dmd5;
 		
-		if (src.isDirectory() || dst.isDirectory()) {
+		if (source.isDirectory() || destination.isDirectory()) {
 			return false;
 		}
 		
-		Log.d(TAG,"FileIsDuplicate|src=" + src + ",dst=" + dst);
-		if (dst.exists()) {
-			smd5 = calculateMd5(src);
-			dmd5 = calculateMd5(dst);
+		Log.d(TAG,"FileIsDuplicate|src=" + source + ",dst=" + destination);
+		if (destination.exists()) {
+			smd5 = calculateMd5(source);
+			dmd5 = calculateMd5(destination);
 			Log.d(TAG,"FileIsDuplicate|sMd5=" + smd5 + ",dMd5=" + dmd5);
 			if (smd5 == dmd5) {
 				result = true;
@@ -83,54 +93,5 @@ public class FileUtils {
 				Log.d(TAG, "calculateMd5|closing file failed");
 			}
 		}
-	}
-	
-	public static void CopyDirectory(File src, File dst, boolean recursive) throws IOException {
-
-		if (FileIsDuplicate(src,dst)) {
-			return;
-		}
-		
-		if (src.isDirectory()) {
-			// like -p
-			if (dst.exists() == false) {
-				dst.mkdirs();
-			}
-			
-			String[] children = src.list();
-			for (int i = 0; i < src.listFiles().length; i++) {
-				FileUtils.CopyDirectory(new File(src, children[i]), 
-										new File(dst, children[i]), 
-										recursive);
-			}
-		} else {
-			// File!
-			InputStream in = new FileInputStream(src);
-			OutputStream out = new FileOutputStream(dst);
-			
-			byte[] buf = new byte[1024];
-			int len;
-			
-			while ((len = in.read(buf)) > 0) {
-				out.write(buf, 0, len);
-			}
-			
-			in.close();
-			out.close();
-		}
-	}
-
-	public static int FileCountToCopy(File src, File dst) {
-		int fileCount = 0;
-
-		if (FileIsDuplicate(src,dst))
-			return 0;
-
-		return fileCount;
-	}
-	
-	public static File[] GetFilesToCopy(File src, File dst) {
-		
-		return null;
 	}
 }
