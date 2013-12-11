@@ -35,11 +35,10 @@ public class FileUtils {
 			return false;
 		}
 		
-		Log.d(TAG,"FileIsDuplicate|src=" + source + ",dst=" + destination);
 		if (destination.exists()) {
 			smd5 = calculateMd5(source);
 			dmd5 = calculateMd5(destination);
-			Log.d(TAG,"FileIsDuplicate|sMd5=" + smd5 + ",dMd5=" + dmd5);
+
 			if (smd5 == dmd5) {
 				result = true;
 			}
