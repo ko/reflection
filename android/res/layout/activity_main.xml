@@ -22,7 +22,7 @@
         android:id="@+id/deviceList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button2"
+        android:layout_above="@+id/buttonSync"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/destinationHSV" />
 

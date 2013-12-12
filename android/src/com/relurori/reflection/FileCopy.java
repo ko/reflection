@@ -9,12 +9,15 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.relurori.reflection.FileCopyConstants.ToCopyThreadStatus;
+
 import android.util.Log;
 
 public class FileCopy extends FileUtils {
 
 	private static final String TAG = FileCopy.class.getSimpleName();
 	
+	ToCopyThreadStatus tStatus = ToCopyThreadStatus.NOT_RUNNING;
 	
 	List<File> filesToCopy = new ArrayList<File>();
 	List<File> filesCopied = new ArrayList<File>();
@@ -23,7 +26,22 @@ public class FileCopy extends FileUtils {
 	
 	public FileCopy(File source, File destination) {
 		super(source, destination);
-		setFilesToCopy();
+		SetFilesToCopyThread();
+	}
+
+	private void SetFilesToCopyThread() {
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				tStatus = ToCopyThreadStatus.RUNNING;
+				Log.d(TAG,"SetFilesToCopyThread|tStatus=" + tStatus);
+				setFilesToCopy();
+				tStatus = ToCopyThreadStatus.COMPLETE;
+				Log.d(TAG,"SetFilesToCopyThread|tStatus=" + tStatus);
+			}
+			
+		}).run();
 	}
 
 	/**
@@ -48,6 +66,11 @@ public class FileCopy extends FileUtils {
 				}
 			}
 			String[] children = source.list();
+			
+			if (children == null) {
+				return;
+			}
+			
 			for (int i = 0; i < source.listFiles().length; i++) {
 				SetFilesToCopyRecursive(new File(source,children[i]), new File(destination,children[i]));
 			}
@@ -58,6 +81,38 @@ public class FileCopy extends FileUtils {
 		}
 	}
 	
+	public void CopyAllFiles() {
+		CopyDirectories();
+		CopyFiles();
+	}
+	
+	private void CopyDirectories() {
+		for (File dir : dirsToCopy) {
+			CopyDirectory(dir);
+			dirsToCopy.remove(dir);
+			dirsCopied.add(dir);
+		}
+	}
+
+	private void CopyDirectory(File dir) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void CopyFiles() {
+		for (File file : filesToCopy) {
+			CopyFile(file);
+			filesToCopy.remove(file);
+			filesCopied.add(file);
+		}
+	}
+
+	private void CopyFile(File file) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/*
 	public void CopyDirectory() throws IOException {
 		CopyDirectoryRecursive(src,dst,true);
 	}
@@ -96,8 +151,13 @@ public class FileCopy extends FileUtils {
 			out.close();
 		}
 	}
+	*/
 
 	public int getFilesToCopyCount() {
+		if (tStatus != ToCopyThreadStatus.COMPLETE) {
+			Log.d(TAG,"getFilesToCopyCount|tStatus=" + tStatus);
+			filesToCopy.size();
+		}
 		return filesToCopy.size();
 	}
 }
