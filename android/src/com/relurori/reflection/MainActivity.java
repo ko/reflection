@@ -147,7 +147,6 @@ public class MainActivity extends Activity {
 			src = sFile;
 			dst = dFile;
 			context = ctx;
-			fileFunc = new FileCopy(src,dst);
 		}
 
 		@Override
@@ -156,14 +155,37 @@ public class MainActivity extends Activity {
 			dialog.setMessage("Copying...");
 			dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 			dialog.show();
+
+			fileFunc = new FileCopy(src,dst);
 		}
 		
 		@Override
 		protected Void doInBackground(Void... voids) {
 
-			int progress = fileFunc.getFilesToCopyCount();
-			Log.d(TAG,"doInBackground|fileCount=" + progress);
-			publishProgress(progress);
+			int ONE_SECOND_TO_MS = 1000;
+			int copied = 0, toCopy = 0;
+			double progress = 0;
+			
+			Log.d(TAG,"doInBackground|filesCopied=" + progress);
+			
+			while (fileFunc.getToCopyStatus() != FileCopyConstants.ToCopyThreadStatus.COMPLETE) {
+				try {
+					Thread.sleep(ONE_SECOND_TO_MS);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			while (fileFunc.getCopyStatus() != FileCopyConstants.CopyThreadStatus.COMPLETE) {
+				copied = fileFunc.getFilesCopiedCount();
+				toCopy = fileFunc.getFilesToCopyCount();
+				progress = (double) copied / (double) toCopy;
+				publishProgress((int) (progress * 100));
+
+			}
+			
+			
 			/*
 			try {
 				int progress = FileUtils.FileCountToCopy(src, dst);

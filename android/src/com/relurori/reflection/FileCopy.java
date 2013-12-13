@@ -2,13 +2,19 @@ package com.relurori.reflection;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import com.relurori.reflection.FileCopyConstants.CopyThreadStatus;
 import com.relurori.reflection.FileCopyConstants.ToCopyThreadStatus;
 
 import android.util.Log;
@@ -18,11 +24,15 @@ public class FileCopy extends FileUtils {
 	private static final String TAG = FileCopy.class.getSimpleName();
 	
 	ToCopyThreadStatus tStatus = ToCopyThreadStatus.NOT_RUNNING;
+	CopyThreadStatus cStatus = CopyThreadStatus.NOT_RUNNING;
 	
-	List<File> filesToCopy = new ArrayList<File>();
-	List<File> filesCopied = new ArrayList<File>();
+	Map<File,File> filesCopied = new HashMap<File,File>();
+	Map<File,File> filesToCopy = new HashMap<File,File>();
+	
+	/*
 	List<File> dirsToCopy = new ArrayList<File>();
 	List<File> dirsCopied = new ArrayList<File>();
+	*/
 	
 	public FileCopy(File source, File destination) {
 		super(source, destination);
@@ -41,7 +51,7 @@ public class FileCopy extends FileUtils {
 				Log.d(TAG,"SetFilesToCopyThread|tStatus=" + tStatus);
 			}
 			
-		}).run();
+		}).start();
 	}
 
 	/**
@@ -50,7 +60,7 @@ public class FileCopy extends FileUtils {
 	private void setFilesToCopy() {
 		SetFilesToCopyRecursive(src,dst);
 		Log.d(TAG,"FilesToCopy.size()=" + filesToCopy.size());
-		Log.d(TAG,"DirsToCopy.size()=" + dirsToCopy.size());
+		//Log.d(TAG,"DirsToCopy.size()=" + dirsToCopy.size());
 	}
 	
 	public void SetFilesToCopyRecursive(File source, File destination) {
@@ -59,12 +69,6 @@ public class FileCopy extends FileUtils {
 		}
 		
 		if (source.isDirectory()) {
-			if (destination.exists() == false) {
-				// add directory and contents
-				if (dirsToCopy.contains(source)) {
-					dirsToCopy.add(source);
-				}
-			}
 			String[] children = source.list();
 			
 			if (children == null) {
@@ -75,41 +79,50 @@ public class FileCopy extends FileUtils {
 				SetFilesToCopyRecursive(new File(source,children[i]), new File(destination,children[i]));
 			}
 		} else if (source.isFile()) {
-			if (filesToCopy.contains(source)) {
-				filesToCopy.add(source);
-			}
+			filesToCopy.put(source,destination);
 		}
 	}
 	
 	public void CopyAllFiles() {
-		CopyDirectories();
-		CopyFiles();
-	}
-	
-	private void CopyDirectories() {
-		for (File dir : dirsToCopy) {
-			CopyDirectory(dir);
-			dirsToCopy.remove(dir);
-			dirsCopied.add(dir);
-		}
-	}
+		new Thread(new Runnable() {
 
-	private void CopyDirectory(File dir) {
-		// TODO Auto-generated method stub
-		
+			@Override
+			public void run() {
+				CopyFiles();
+			}
+			
+		}).start();
 	}
 
 	private void CopyFiles() {
-		for (File file : filesToCopy) {
-			CopyFile(file);
-			filesToCopy.remove(file);
-			filesCopied.add(file);
+		Iterator<Entry<File, File>> it = filesToCopy.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<File, File> kv = (Entry<File, File>)it.next();
+			try {
+				CopyFile(kv.getKey(),kv.getValue());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// TODO keep track of copied files? for resume, presumably
+			filesCopied.put(kv.getKey(), kv.getValue());
 		}
 	}
 
-	private void CopyFile(File file) {
-		// TODO Auto-generated method stub
+	private void CopyFile(File source, File destination) throws IOException {
+		// File!
+		InputStream in = new FileInputStream(source);
+		OutputStream out = new FileOutputStream(destination);
 		
+		byte[] buf = new byte[1024];
+		int len;
+		
+		while ((len = in.read(buf)) > 0) {
+			out.write(buf, 0, len);
+		}
+		
+		in.close();
+		out.close();
 	}
 
 	/*
@@ -156,8 +169,19 @@ public class FileCopy extends FileUtils {
 	public int getFilesToCopyCount() {
 		if (tStatus != ToCopyThreadStatus.COMPLETE) {
 			Log.d(TAG,"getFilesToCopyCount|tStatus=" + tStatus);
-			filesToCopy.size();
 		}
 		return filesToCopy.size();
+	}
+	
+	public int getFilesCopiedCount() {
+		return filesCopied.size();
+	}
+	
+	public CopyThreadStatus getCopyStatus() {
+		return cStatus;
+	}
+	
+	public ToCopyThreadStatus getToCopyStatus() {
+		return tStatus;
 	}
 }
