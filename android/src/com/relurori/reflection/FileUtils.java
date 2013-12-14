@@ -31,6 +31,13 @@ public class FileUtils {
 		boolean result = false;
 		String smd5, dmd5;
 		
+		if (source.exists() == false) {
+			return false;
+		}
+		if (destination.exists() == false) {
+			return false;
+		}
+		
 		if (source.isDirectory() || destination.isDirectory()) {
 			return false;
 		}
