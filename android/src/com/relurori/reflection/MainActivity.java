@@ -13,6 +13,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.Fragment;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -38,8 +40,13 @@ public class MainActivity extends Activity {
 	
 	ListView deviceListView;
 	ArrayAdapter mArrayAdapter;
-	ArrayList<String> deviceArrayList;
 	Button button;
+	
+	private Fragment mTempFragment = null;
+	private InstructionFragment mInstructionFragment = new InstructionFragment();
+	private SelectSourceFragment mSourceFragment = new SelectSourceFragment();
+	private SelectDestinationFragment mDestinationFragment = new SelectDestinationFragment();
+	private SyncFragment mSyncFragment = new SyncFragment();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,34 +54,9 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		pre();
-		
-		populateStorageList();
 	}
 
 	private void pre() {
-		deviceArrayList = new ArrayList<String>();
-		deviceListView = (ListView) findViewById(R.id.deviceList);
-		mArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,  
-                deviceArrayList);
-		
-		deviceListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				
-				TextView tv = (TextView)findViewById(R.id.sourceDevice);
-				if (tv.getText().equals("")) {
-					tv.setText((String)parent.getItemAtPosition(position));
-					return;
-				}
-				
-				tv = (TextView)findViewById(R.id.destinationDevice);
-				if (tv.getText().equals("")) {
-					tv.setText((String)parent.getItemAtPosition(position));
-					return;
-				}
-			}
-		});
 		
 		button = (Button)findViewById(R.id.clearDestinationDevice);
 		button.setOnClickListener(new View.OnClickListener() {
@@ -96,111 +78,9 @@ public class MainActivity extends Activity {
 			}
 		});
 		
-		button = (Button)findViewById(R.id.buttonSync);
-		button.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				TextView tv;
-				tv = (TextView)findViewById(R.id.destinationDevice);
-				String dstUri = tv.getText().toString();
-				tv = (TextView)findViewById(R.id.sourceDevice);
-				String srcUri = tv.getText().toString();
-				File src = null;
-				File dst = null;
-				try {
-					src = new File(new URI(srcUri));
-					dst = new File(new URI(dstUri));
-				} catch (URISyntaxException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				Context ctx = MainActivity.this;
-				new CopyFilesAsync(ctx, src, dst).execute();
-			}
-		});
+		
+		
+		
 	}
 
-	public void populateStorageList()
-	{
-	    File innerDir = Environment.getExternalStorageDirectory();	/* as /storage/emulated/0 */
-	    File rootDir = innerDir.getParentFile();	/* as /storage/emulated */
-	    rootDir = rootDir.getParentFile();			/* as /storage */
-	    File firstExtSdCard = innerDir ;
-	    File[] files = rootDir.listFiles();
-	    for (File file : files) {
-	    	if (file.listFiles() != null) {
-	    		deviceArrayList.add(file.toURI().toString() /*+ "|" + file.listFiles().length */);
-	    	}
-	    }
-	    deviceListView.setAdapter(mArrayAdapter);
-	}
-	
-	class CopyFilesAsync extends AsyncTask<Void,Integer,Void> {
-		
-		private ProgressDialog dialog;
-		File src, dst;
-		Context context;
-		FileCopy fileFunc;
-		
-		public CopyFilesAsync(Context ctx, File sFile, File dFile) {
-			src = sFile;
-			dst = dFile;
-			context = ctx;
-		}
-
-		@Override
-		protected void onPreExecute() {
-			dialog = new ProgressDialog(context);
-			dialog.setMessage("Copying...");
-			dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			dialog.show();
-
-			fileFunc = new FileCopy(src,dst);
-		}
-		
-		@Override
-		protected Void doInBackground(Void... voids) {
-
-			int ONE_SECOND_TO_MS = 1000;
-			int copied = 0, toCopy = 0;
-			double progress = 0;
-			
-			Log.d(TAG,"doInBackground|filesCopied=" + progress);
-			
-			while (fileFunc.getToCopyStatus() != FileCopyConstants.ToCopyThreadStatus.COMPLETE) {
-				try {
-					Thread.sleep(ONE_SECOND_TO_MS);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			
-			while (fileFunc.getCopyStatus() != FileCopyConstants.CopyThreadStatus.COMPLETE) {
-				copied = fileFunc.getFilesCopiedCount();
-				toCopy = fileFunc.getFilesToCopyCount();
-				progress = (double) copied / (double) toCopy;
-				publishProgress((int) (progress * 100));
-
-			}
-			
-			
-			/*
-			try {
-				int progress = FileUtils.FileCountToCopy(src, dst);
-				publishProgress(progress);
-				FileUtils.CopyDirectory(src, dst, true);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			*/
-			
-			return null;
-		}
-		
-		protected void onProgressUpdate(Integer...integers) {
-			dialog.setProgress(integers[0]);
-		}
-	}
 }
