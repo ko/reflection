@@ -9,11 +9,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.View;
 
 public class MainPagerAdapter extends FragmentPagerAdapter {
 
 	private List<Fragment> fragments;
+	
+	private static final String TAG = MainPagerAdapter.class.getSimpleName();
 	
 	public MainPagerAdapter(FragmentManager fm, List<Fragment> frags) {
 		super(fm);
@@ -23,6 +26,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
 	@Override
 	public Fragment getItem(int position) {
+		Log.d(TAG,"getItem|" + position);
 		return fragments.get(position);
 	}
 	

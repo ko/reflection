@@ -17,6 +17,8 @@ public class SelectDestinationFragment extends Fragment {
 	private Button mButton;
 	ArrayList<String> deviceArrayList;
 	
+	public SelectDestinationFragment() {}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {

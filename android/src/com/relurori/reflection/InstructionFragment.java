@@ -14,6 +14,8 @@ public class InstructionFragment extends Fragment {
 	
 	private View mView = null;
 
+	public InstructionFragment() {}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
@@ -32,6 +34,6 @@ public class InstructionFragment extends Fragment {
 
 	private void pre() {
 		TextView tv = (TextView)mView.findViewById(R.id.textView1);
-		tv.setText("hi");
+		Log.d(TAG,"pre|tv=" + tv.getText());
 	}
 }

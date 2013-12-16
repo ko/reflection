@@ -25,6 +25,8 @@ public class SelectSourceFragment extends Fragment {
 	private Button mButton;
 	ArrayList<String> deviceArrayList;
 	
+	public SelectSourceFragment() {}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {

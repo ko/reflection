@@ -23,6 +23,8 @@ public class SyncFragment extends Fragment {
 	private View mView = null;
 	private Button mButton;
 	
+	public SyncFragment() {}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
