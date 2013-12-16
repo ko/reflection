@@ -23,7 +23,7 @@ public class SelectDestinationFragment extends Fragment {
 		
 		mView = inflater.inflate(R.layout.fragment_destination_device, container, false);
 		
-		pre();
+		//pre();
 		
 		return mView;
 	}

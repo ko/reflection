@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 
 public class SelectSourceFragment extends Fragment {
 
+	private static final String TAG = SelectSourceFragment.class.getSimpleName();
+	
 	private View mView = null;
 	private Button mButton;
 	ArrayList<String> deviceArrayList;
@@ -26,9 +29,14 @@ public class SelectSourceFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 		
+		Log.d(TAG,"0");
+		
+		if (container == null) 
+			return null;
+		
 		mView = inflater.inflate(R.layout.fragment_source_device, container, false);
 		
-		pre();
+		//pre();
 		
 		return mView;
 	}

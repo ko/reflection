@@ -27,9 +27,16 @@ public class SyncFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 		
-		mView = inflater.inflate(R.layout.fragment_sync, container, false);
+		Log.d(TAG,"0");
 		
-		pre();
+		if (container == null) 
+			return null;
+		
+		mView = inflater.inflate(R.layout.fragment_sync, container, false);
+
+		Log.d(TAG,"1");
+		
+		//pre();
 		
 		return mView;
 	}
