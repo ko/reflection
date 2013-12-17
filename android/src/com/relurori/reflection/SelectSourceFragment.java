@@ -2,6 +2,7 @@ package com.relurori.reflection;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SelectSourceFragment extends Fragment {
 
@@ -23,7 +25,9 @@ public class SelectSourceFragment extends Fragment {
 	
 	private View mView = null;
 	private Button mButton;
-	ArrayList<String> deviceArrayList;
+	List<String> postDeviceArrayList = new ArrayList<String>();
+	List<String> preDeviceArrayList = new ArrayList<String>();
+	List<String> newDeviceArrayList = new ArrayList<String>();
 	
 	public SelectSourceFragment() {}
 	
@@ -38,16 +42,18 @@ public class SelectSourceFragment extends Fragment {
 		
 		mView = inflater.inflate(R.layout.fragment_source_device, container, false);
 		
-		//pre();
+		Log.d(TAG,"1");
+		pre();
+		
+		Log.d(TAG,"2");
+		populateStorageList(preDeviceArrayList);
 		
 		return mView;
 	}
 
 	private void pre() {
-
-		deviceArrayList = new ArrayList<String>();
 		
-		mButton = (Button)mView.findViewById(R.id.rescanDevices);
+		mButton = (Button)mView.findViewById(R.id.btnScan);
 		mButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -55,48 +61,23 @@ public class SelectSourceFragment extends Fragment {
 				final Dialog dialog = new Dialog(getActivity());
 		        dialog.setContentView(R.layout.device_list);
 		        
-		        populateStorageList();
+		        populateStorageList(postDeviceArrayList);
 		        
-		        ListView list = (ListView)dialog.findViewById(R.id.devicesList);
-		        dialog.setTitle("Heart attack and shock");
-		        dialog.setCancelable(true);
-		        dialog.setCanceledOnTouchOutside(true);
-		        ArrayAdapter<String> adapter = new ArrayAdapter<String> (getActivity(),android.R.layout.simple_list_item_1,deviceArrayList); 
-		        list.setAdapter(adapter);
-
-		        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-					@Override
-					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-						
-						TextView tv = (TextView)mView.findViewById(R.id.sourceDevice);
-						if (tv.getText().equals("")) {
-							tv.setText((String)parent.getItemAtPosition(position));
-							
-							dialog.cancel();
-							
-							return;
-						}
-						
-						tv = (TextView)mView.findViewById(R.id.destinationDevice);
-						if (tv.getText().equals("")) {
-							tv.setText((String)parent.getItemAtPosition(position));
-							
-							dialog.cancel();
-							
-							return;
-						}
-						
-					}
-				});
+		        for (int i = 0; i < postDeviceArrayList.size(); i++) {
+		        	if (preDeviceArrayList.contains(postDeviceArrayList.get(i)) == false) {
+		        		newDeviceArrayList.add(postDeviceArrayList.get(i));
+		        	}
+		        }
 		        
-		        dialog.show();
+		        Log.d(TAG,"newList=" + newDeviceArrayList.toString());
+		        TextView tv = (TextView)mView.findViewById(R.id.textView1);
+		        tv.setText("newList=" + newDeviceArrayList.toString());
 			}
 		});
 	}
 	
 
-	public void populateStorageList()
+	public void populateStorageList(List<String> deviceArrayList)
 	{
 	    File innerDir = Environment.getExternalStorageDirectory();	/* as /storage/emulated/0 */
 	    File rootDir = innerDir.getParentFile();	/* as /storage/emulated */
@@ -108,7 +89,6 @@ public class SelectSourceFragment extends Fragment {
 	    		deviceArrayList.add(file.toURI().toString() /*+ "|" + file.listFiles().length */);
 	    	}
 	    }
-	    //deviceListView.setAdapter(mArrayAdapter);
 	}
 	
 }
