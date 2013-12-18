@@ -64,6 +64,9 @@ public class SelectDestinationFragment extends Fragment {
 		        Log.d(TAG,"newList=" + newDeviceArrayList.toString());
 		        TextView tv = (TextView)mView.findViewById(R.id.textView12);
 		        tv.setText("newList=" + newDeviceArrayList.toString());
+		        
+		        tv = (TextView)mView.findViewById(R.id.tvDst);
+		        tv.setText(newDeviceArrayList.toString());
 			}
 		});
 	}

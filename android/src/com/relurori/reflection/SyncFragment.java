@@ -38,6 +38,8 @@ public class SyncFragment extends Fragment {
 
 		Log.d(TAG,"1");
 		
+		
+		
 		//pre();
 		
 		return mView;
@@ -50,9 +52,10 @@ public class SyncFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				TextView tv;
-				tv = (TextView)mView.findViewById(R.id.destinationDevice);
+				
+				tv = (TextView)mView.findViewById(R.id.tvDst);
 				String dstUri = tv.getText().toString();
-				tv = (TextView)mView.findViewById(R.id.sourceDevice);
+				tv = (TextView)mView.findViewById(R.id.tvSrc);
 				String srcUri = tv.getText().toString();
 				File src = null;
 				File dst = null;

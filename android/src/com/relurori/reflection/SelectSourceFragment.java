@@ -72,6 +72,9 @@ public class SelectSourceFragment extends Fragment {
 		        Log.d(TAG,"newList=" + newDeviceArrayList.toString());
 		        TextView tv = (TextView)mView.findViewById(R.id.textView1);
 		        tv.setText("newList=" + newDeviceArrayList.toString());
+		        
+		        tv = (TextView)mView.findViewById(R.id.tvSrc);
+		        tv.setText(newDeviceArrayList.toString());
 			}
 		});
 	}
