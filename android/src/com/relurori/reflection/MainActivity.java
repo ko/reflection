@@ -20,6 +20,9 @@ public class MainActivity extends FragmentActivity {
 	private PagerAdapter mPagerAdapter = null;
 	private ViewPager pager = null;
 	
+	private static String src = null;
+	private static String dst = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,5 +67,20 @@ public class MainActivity extends FragmentActivity {
 			}
 		});
 	}
+	
+	public static void setSrc(String source) {
+		src = source;
+	}
 
+	public static String getSrc() {
+		return src;
+	}
+	
+	public static void setDst(String destination) {
+		dst = destination;
+	}
+	
+	public static String getDst() {
+		return dst;
+	}
 }

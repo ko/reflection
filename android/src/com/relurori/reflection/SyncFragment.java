@@ -23,6 +23,8 @@ public class SyncFragment extends Fragment {
 	private View mView = null;
 	private Button mButton;
 	
+	private TextView tv;
+	
 	public SyncFragment() {}
 	
 	@Override
@@ -40,17 +42,25 @@ public class SyncFragment extends Fragment {
 		
 		
 		
-		//pre();
+		pre();
 		
 		return mView;
 	}
 
 	private void pre() {
-		mButton = (Button)mView.findViewById(R.id.buttonSync);
+		tv = (TextView) mView.findViewById(R.id.textView1);
+		
+		mButton = (Button)mView.findViewById(R.id.btnSync);
 		mButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
+				
+
+				tv.setText(MainActivity.getSrc() + " to " + MainActivity.getDst());
+				
+				/*
+				
 				TextView tv;
 				
 				tv = (TextView)mView.findViewById(R.id.tvDst);
@@ -70,6 +80,7 @@ public class SyncFragment extends Fragment {
 				Context ctx = getActivity().getApplicationContext();
 				
 				new CopyFilesAsync(ctx, src, dst).execute();
+				*/
 			}
 		});
 	}

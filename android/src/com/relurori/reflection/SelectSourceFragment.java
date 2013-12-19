@@ -80,6 +80,8 @@ public class SelectSourceFragment extends Fragment {
 		        tv = (TextView)mView.findViewById(R.id.tvSrc);
 		        tv.setText(newDeviceArrayList.toString());
 		        
+		        MainActivity.setSrc(newDeviceArrayList.toString());
+		        
 		        pager.setCurrentItem(MainConstants.PAGER_DST_INDEX, true);
 			}
 		});

@@ -72,6 +72,8 @@ public class SelectDestinationFragment extends Fragment {
 		        tv = (TextView)mView.findViewById(R.id.tvDst);
 		        tv.setText(newDeviceArrayList.toString());
 		        
+		        MainActivity.setDst(newDeviceArrayList.toString());
+		        
 		        pager.setCurrentItem(MainConstants.PAGER_SYNC_INDEX, true);
 			}
 		});
