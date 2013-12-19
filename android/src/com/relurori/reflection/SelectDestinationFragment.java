@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SelectDestinationFragment extends Fragment {
 
@@ -23,9 +24,9 @@ public class SelectDestinationFragment extends Fragment {
 	private View mView = null;
 	private ViewPager pager = null;
 	private Button mButton;
-	List<String> postDeviceArrayList = new ArrayList<String>();
-	List<String> preDeviceArrayList = new ArrayList<String>();
-	List<String> newDeviceArrayList = new ArrayList<String>();
+	List<String> postDevList = new ArrayList<String>();
+	List<String> preDevList = new ArrayList<String>();
+	List<String> newDevList = new ArrayList<String>();
 	
 	public SelectDestinationFragment() {}
 	
@@ -37,9 +38,6 @@ public class SelectDestinationFragment extends Fragment {
 		
 		Log.d(TAG,"1");
 		pre();
-
-		Log.d(TAG,"2");
-		populateStorageList(preDeviceArrayList);
 		
 		return mView;
 	}
@@ -54,25 +52,25 @@ public class SelectDestinationFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				final Dialog dialog = new Dialog(getActivity());
-		        dialog.setContentView(R.layout.device_list);
+				
+				preDevList = MainActivity.getSrcList();
 		        
-		        populateStorageList(postDeviceArrayList);
-		        
-		        for (int i = 0; i < postDeviceArrayList.size(); i++) {
-		        	if (preDeviceArrayList.contains(postDeviceArrayList.get(i)) == false) {
-		        		newDeviceArrayList.add(postDeviceArrayList.get(i));
+		        populateStorageList(postDevList);
+
+		        for (int i = 0; i < postDevList.size(); i++) {
+		        	if (preDevList.contains(postDevList.get(i)) == false) {
+		        		newDevList.add(postDevList.get(i));
 		        	}
 		        }
+
+		        if (newDevList.isEmpty()) {
+		        	Log.d(TAG,"empty dst");
+		        	Toast.makeText(getActivity().getBaseContext(), "dst=" + newDevList.toString(), Toast.LENGTH_LONG).show();
+		        	return;
+		        } 
 		        
-		        Log.d(TAG,"newList=" + newDeviceArrayList.toString());
-		        TextView tv = (TextView)mView.findViewById(R.id.textView12);
-		        tv.setText("newList=" + newDeviceArrayList.toString());
-		        
-		        tv = (TextView)mView.findViewById(R.id.tvDst);
-		        tv.setText(newDeviceArrayList.toString());
-		        
-		        MainActivity.setDst(newDeviceArrayList.toString());
+		        MainActivity.setDst(newDevList.toString());
+		        MainActivity.setDstList(postDevList);
 		        
 		        pager.setCurrentItem(MainConstants.PAGER_SYNC_INDEX, true);
 			}

@@ -27,9 +27,9 @@ public class SelectSourceFragment extends Fragment {
 	private View mView = null;
 	private ViewPager pager = null;
 	private Button mButton;
-	List<String> postDeviceArrayList = new ArrayList<String>();
-	List<String> preDeviceArrayList = new ArrayList<String>();
-	List<String> newDeviceArrayList = new ArrayList<String>();
+	List<String> postDevList = new ArrayList<String>();
+	List<String> preDevList = new ArrayList<String>();
+	List<String> newDevList = new ArrayList<String>();
 	
 	public SelectSourceFragment() {}
 	
@@ -48,7 +48,7 @@ public class SelectSourceFragment extends Fragment {
 		pre();
 		
 		Log.d(TAG,"2");
-		populateStorageList(preDeviceArrayList);
+		populateStorageList(preDevList);
 		
 		return mView;
 	}
@@ -62,25 +62,23 @@ public class SelectSourceFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				final Dialog dialog = new Dialog(getActivity());
-		        dialog.setContentView(R.layout.device_list);
+				
+		        populateStorageList(postDevList);
 		        
-		        populateStorageList(postDeviceArrayList);
-		        
-		        for (int i = 0; i < postDeviceArrayList.size(); i++) {
-		        	if (preDeviceArrayList.contains(postDeviceArrayList.get(i)) == false) {
-		        		newDeviceArrayList.add(postDeviceArrayList.get(i));
+		        for (int i = 0; i < postDevList.size(); i++) {
+		        	if (preDevList.contains(postDevList.get(i)) == false) {
+		        		newDevList.add(postDevList.get(i));
 		        	}
 		        }
 		        
-		        Log.d(TAG,"newList=" + newDeviceArrayList.toString());
-		        TextView tv = (TextView)mView.findViewById(R.id.textView1);
-		        tv.setText("newList=" + newDeviceArrayList.toString());
+		        if (newDevList.isEmpty()) {
+		        	Log.d(TAG,"empty source");
+		        	Toast.makeText(getActivity().getBaseContext(), "src=" + newDevList.toString(), Toast.LENGTH_LONG).show();
+		        	return;
+		        }
 		        
-		        tv = (TextView)mView.findViewById(R.id.tvSrc);
-		        tv.setText(newDeviceArrayList.toString());
-		        
-		        MainActivity.setSrc(newDeviceArrayList.toString());
+		        MainActivity.setSrc(newDevList.toString());
+		        MainActivity.setSrcList(postDevList);
 		        
 		        pager.setCurrentItem(MainConstants.PAGER_DST_INDEX, true);
 			}

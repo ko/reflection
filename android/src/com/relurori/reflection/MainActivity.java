@@ -23,6 +23,9 @@ public class MainActivity extends FragmentActivity {
 	private static String src = null;
 	private static String dst = null;
 	
+	private static List<String> srcList = null;
+	private static List<String> dstList = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -82,5 +85,21 @@ public class MainActivity extends FragmentActivity {
 	
 	public static String getDst() {
 		return dst;
+	}
+	
+	public static void setSrcList(List<String> list) {
+		srcList = list;
+	}
+	
+	public static void setDstList(List<String> list) {
+		dstList = list;
+	}
+	
+	public static List<String> getSrcList() {
+		return srcList;
+	}
+	
+	public static List<String> getDstList() {
+		return dstList;
 	}
 }
