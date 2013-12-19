@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ public class SelectDestinationFragment extends Fragment {
 	private String TAG = SelectDestinationFragment.class.getSimpleName();
 	
 	private View mView = null;
+	private ViewPager pager = null;
 	private Button mButton;
 	List<String> postDeviceArrayList = new ArrayList<String>();
 	List<String> preDeviceArrayList = new ArrayList<String>();
@@ -45,6 +47,8 @@ public class SelectDestinationFragment extends Fragment {
 
 	private void pre() {
 		
+		pager = (ViewPager) getActivity().findViewById(R.id.viewpager);
+		
 		mButton = (Button)mView.findViewById(R.id.btnScan2);
 		mButton.setOnClickListener(new View.OnClickListener() {
 			
@@ -67,6 +71,8 @@ public class SelectDestinationFragment extends Fragment {
 		        
 		        tv = (TextView)mView.findViewById(R.id.tvDst);
 		        tv.setText(newDeviceArrayList.toString());
+		        
+		        pager.setCurrentItem(MainConstants.PAGER_SYNC_INDEX, true);
 			}
 		});
 	}

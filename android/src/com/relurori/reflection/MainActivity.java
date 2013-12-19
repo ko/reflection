@@ -10,13 +10,15 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends FragmentActivity {
 
 	private final String TAG = MainActivity.class.getSimpleName();
 
 	private PagerAdapter mPagerAdapter = null;
-
+	private ViewPager pager = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +44,25 @@ public class MainActivity extends FragmentActivity {
 		mPagerAdapter = new MainPagerAdapter(super.getSupportFragmentManager(), fragments);
 		
 		Log.d(TAG,"4");
-		ViewPager pager = (ViewPager)super.findViewById(R.id.viewpager);
+		pager = (ViewPager)super.findViewById(R.id.viewpager);
 		
 		Log.d(TAG,"5");
 		pager.setAdapter(mPagerAdapter);
 		
 		Log.d(TAG,"6");
+		
+		//continued();
+	}
+	
+	private void continued() {
+		Button b = (Button)findViewById(R.id.btnStart);
+		b.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				pager.setCurrentItem(1,true);
+			}
+		});
 	}
 
 }
