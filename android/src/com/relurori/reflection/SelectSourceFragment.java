@@ -25,7 +25,7 @@ public class SelectSourceFragment extends Fragment {
 	private static final String TAG = SelectSourceFragment.class.getSimpleName();
 	
 	private View mView = null;
-	private ViewPager pager = null;
+	private MyViewPager pager = null;
 	private Button mButton;
 	List<String> postDevList = new ArrayList<String>();
 	List<String> preDevList = new ArrayList<String>();
@@ -55,7 +55,7 @@ public class SelectSourceFragment extends Fragment {
 
 	private void pre() {
 		
-		pager = (ViewPager) getActivity().findViewById(R.id.viewpager);
+		pager = (MyViewPager) getActivity().findViewById(R.id.viewpager);
 		
 		mButton = (Button)mView.findViewById(R.id.btnScan);
 		mButton.setOnClickListener(new View.OnClickListener() {

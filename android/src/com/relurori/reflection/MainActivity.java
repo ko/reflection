@@ -18,7 +18,7 @@ public class MainActivity extends FragmentActivity {
 	private final String TAG = MainActivity.class.getSimpleName();
 
 	private PagerAdapter mPagerAdapter = null;
-	private ViewPager pager = null;
+	private MyViewPager pager = null;
 	
 	private static String src = null;
 	private static String dst = null;
@@ -50,7 +50,7 @@ public class MainActivity extends FragmentActivity {
 		mPagerAdapter = new MainPagerAdapter(super.getSupportFragmentManager(), fragments);
 		
 		Log.d(TAG,"4");
-		pager = (ViewPager)super.findViewById(R.id.viewpager);
+		pager = (MyViewPager)super.findViewById(R.id.viewpager);
 		
 		Log.d(TAG,"5");
 		pager.setAdapter(mPagerAdapter);

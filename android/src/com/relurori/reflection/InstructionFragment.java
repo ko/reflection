@@ -15,7 +15,7 @@ public class InstructionFragment extends Fragment {
 	private String TAG = InstructionFragment.class.getSimpleName();
 	
 	private View mView = null;
-	private ViewPager pager = null;
+	private MyViewPager pager = null;
 
 	public InstructionFragment() {}
 	
@@ -39,7 +39,7 @@ public class InstructionFragment extends Fragment {
 		TextView tv = (TextView)mView.findViewById(R.id.textView1);
 		Log.d(TAG,"pre|tv=" + tv.getText());
 		
-		pager = (ViewPager) getActivity().findViewById(R.id.viewpager);
+		pager = (MyViewPager) getActivity().findViewById(R.id.viewpager);
 		
 		Button b = (Button)mView.findViewById(R.id.btnStart);
 		b.setOnClickListener(new View.OnClickListener() {
