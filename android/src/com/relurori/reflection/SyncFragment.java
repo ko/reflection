@@ -56,20 +56,14 @@ public class SyncFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
+				String dstUri = MainActivity.getDst();
+				String srcUri = MainActivity.getSrc();
 				
-
-				tv.setText(MainActivity.getSrc() + " to " + MainActivity.getDst());
-				
-				/*
-				
-				TextView tv;
-				
-				tv = (TextView)mView.findViewById(R.id.tvDst);
-				String dstUri = tv.getText().toString();
-				tv = (TextView)mView.findViewById(R.id.tvSrc);
-				String srcUri = tv.getText().toString();
 				File src = null;
 				File dst = null;
+
+				tv.setText(srcUri + " to " + dstUri);
+				
 				try {
 					src = new File(new URI(srcUri));
 					dst = new File(new URI(dstUri));
@@ -81,7 +75,6 @@ public class SyncFragment extends Fragment {
 				Context ctx = getActivity().getApplicationContext();
 				
 				new CopyFilesAsync(ctx, src, dst).execute();
-				*/
 			}
 		});
 	}
