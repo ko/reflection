@@ -38,8 +38,10 @@ public class MainActivity extends FragmentActivity {
 		Log.d(TAG,"0");
 		List<Fragment> fragments = new ArrayList<Fragment>();
 		
+		/*
 		Log.d(TAG,"1");
 		fragments.add(Fragment.instantiate(this, InstructionFragment.class.getName()));
+		*/
 		
 		Log.d(TAG,"2");
 		fragments.add(Fragment.instantiate(this, SelectSourceFragment.class.getName()));

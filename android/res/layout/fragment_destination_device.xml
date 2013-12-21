@@ -14,40 +14,32 @@
         android:visibility="invisible"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <Button
-        android:id="@+id/btnScan2"
+    <ImageView
+        android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="52dp"
-        android:text="Select Destination" />
+        android:layout_centerVertical="true"
+        android:src="@drawable/dst" />
 
     <TextView
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btnScan2"
+        android:layout_above="@+id/imageView1"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
         android:text="Connect destination device"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp"
-        android:src="@drawable/src" />
 
-    <ImageView
-        android:id="@+id/imageView2"
+    <ImageButton
+        android:id="@+id/btnScan2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView12"
-        android:layout_alignLeft="@+id/imageView1"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/dst" />
+        android:layout_below="@+id/imageView1"
+        android:layout_centerHorizontal="true"
+        android:background="@null"
+        android:src="@drawable/next" />
 
 </RelativeLayout>
