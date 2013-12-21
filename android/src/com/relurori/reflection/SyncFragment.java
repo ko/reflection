@@ -73,6 +73,7 @@ public class SyncFragment extends Fragment {
 				}
 				
 				Context ctx = getActivity().getApplicationContext();
+				ctx = getActivity();
 				
 				new CopyFilesAsync(ctx, src, dst).execute();
 			}
