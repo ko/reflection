@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class SyncFragment extends Fragment {
@@ -21,7 +22,7 @@ public class SyncFragment extends Fragment {
 	private static final String TAG = SyncFragment.class.getSimpleName();
 	
 	private View mView = null;
-	private Button mButton;
+	private ImageButton mButton;
 	
 	private TextView tv;
 	
@@ -50,7 +51,7 @@ public class SyncFragment extends Fragment {
 	private void pre() {
 		tv = (TextView) mView.findViewById(R.id.textView1);
 		
-		mButton = (Button)mView.findViewById(R.id.btnSync);
+		mButton = (ImageButton)mView.findViewById(R.id.btnSync);
 		mButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +27,7 @@ public class SelectSourceFragment extends Fragment {
 	
 	private View mView = null;
 	private MyViewPager pager = null;
-	private Button mButton;
+	private ImageButton mButton;
 	List<String> postDevList = new ArrayList<String>();
 	List<String> preDevList = new ArrayList<String>();
 	List<String> newDevList = new ArrayList<String>();
@@ -57,7 +58,7 @@ public class SelectSourceFragment extends Fragment {
 		
 		pager = (MyViewPager) getActivity().findViewById(R.id.viewpager);
 		
-		mButton = (Button)mView.findViewById(R.id.btnScan);
+		mButton = (ImageButton)mView.findViewById(R.id.btnScan);
 		mButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override

@@ -53,8 +53,6 @@ public class MainActivity extends FragmentActivity {
 		pager.setAdapter(mPagerAdapter);
 		
 		Log.d(TAG,"6");
-		
-		//continued();
 	}
 	
 	public static void setSrc(String source) {
