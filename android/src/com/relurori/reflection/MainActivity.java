@@ -37,12 +37,7 @@ public class MainActivity extends FragmentActivity {
 	private void pre() {
 		Log.d(TAG,"0");
 		List<Fragment> fragments = new ArrayList<Fragment>();
-		
-		/*
-		Log.d(TAG,"1");
-		fragments.add(Fragment.instantiate(this, InstructionFragment.class.getName()));
-		*/
-		
+
 		Log.d(TAG,"2");
 		fragments.add(Fragment.instantiate(this, SelectSourceFragment.class.getName()));
 		fragments.add(Fragment.instantiate(this, SelectDestinationFragment.class.getName()));
@@ -60,17 +55,6 @@ public class MainActivity extends FragmentActivity {
 		Log.d(TAG,"6");
 		
 		//continued();
-	}
-	
-	private void continued() {
-		Button b = (Button)findViewById(R.id.btnStart);
-		b.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				pager.setCurrentItem(1,true);
-			}
-		});
 	}
 	
 	public static void setSrc(String source) {
