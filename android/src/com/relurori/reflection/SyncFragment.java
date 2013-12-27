@@ -96,7 +96,7 @@ public class SyncFragment extends Fragment {
 
 		@Override
 		protected void onPreExecute() {
-			dialog = new ProgressDialog(context);
+			dialog = new ProgressDialog(getActivity().getApplicationContext());
 			dialog.setMessage("Copying...");
 			dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 			dialog.show();

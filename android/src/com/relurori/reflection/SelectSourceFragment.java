@@ -74,7 +74,7 @@ public class SelectSourceFragment extends Fragment {
 		        
 		        if (newDevList.isEmpty()) {
 		        	Log.d(TAG,"empty source");
-		        	Toast.makeText(getActivity().getBaseContext(), "src=" + newDevList.toString(), Toast.LENGTH_LONG).show();
+		        	Toast.makeText(getActivity().getBaseContext(), "Device not found.", Toast.LENGTH_LONG).show();
 		        	return;
 		        }
 		        

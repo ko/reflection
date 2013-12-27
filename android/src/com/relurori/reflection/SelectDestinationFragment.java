@@ -66,7 +66,7 @@ public class SelectDestinationFragment extends Fragment {
 
 		        if (newDevList.isEmpty()) {
 		        	Log.d(TAG,"empty dst");
-		        	Toast.makeText(getActivity().getBaseContext(), "dst=" + newDevList.toString(), Toast.LENGTH_LONG).show();
+		        	Toast.makeText(getActivity().getBaseContext(), "Device not found.", Toast.LENGTH_LONG).show();
 		        	return;
 		        } 
 		        
