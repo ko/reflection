@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -51,6 +52,8 @@ public class SyncFragment extends Fragment {
 	private void pre() {
 		tv = (TextView) mView.findViewById(R.id.textView1);
 		
+		tv.setText(MainActivity.getSrc() + " to " + MainActivity.getDst());
+		
 		mButton = (ImageButton)mView.findViewById(R.id.btnSync);
 		mButton.setOnClickListener(new View.OnClickListener() {
 			
@@ -63,14 +66,13 @@ public class SyncFragment extends Fragment {
 				File dst = null;
 
 				tv.setText(srcUri + " to " + dstUri);
+				Log.d(TAG,"srcUri=" + srcUri);
+				Log.d(TAG,"dstUri=" + dstUri);
 				
-				try {
-					src = new File(new URI(srcUri));
-					dst = new File(new URI(dstUri));
-				} catch (URISyntaxException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				Uri uri = Uri.parse(srcUri);
+				src = new File(uri.toString());
+				uri = Uri.parse(dstUri);
+				dst = new File(uri.toString());
 				
 				Context ctx = getActivity().getApplicationContext();
 				ctx = getActivity();
@@ -96,7 +98,8 @@ public class SyncFragment extends Fragment {
 
 		@Override
 		protected void onPreExecute() {
-			dialog = new ProgressDialog(getActivity().getApplicationContext());
+			dialog = new ProgressDialog(context);
+			dialog.setIndeterminate(true);
 			dialog.setMessage("Copying...");
 			dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 			dialog.show();

@@ -29,6 +29,7 @@ public class FileUtils {
 	
 	public static boolean FileIsDuplicate(File source, File destination) {
 		boolean result = false;
+		
 		String smd5, dmd5;
 		
 		if (source.exists() == false) {
@@ -46,7 +47,7 @@ public class FileUtils {
 			smd5 = calculateMd5(source);
 			dmd5 = calculateMd5(destination);
 
-			if (smd5 == dmd5) {
+			if (smd5.equals(dmd5)) {
 				result = true;
 			}
 		}

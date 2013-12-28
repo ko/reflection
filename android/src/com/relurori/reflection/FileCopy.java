@@ -29,11 +29,6 @@ public class FileCopy extends FileUtils {
 	Map<File,File> filesCopied = new HashMap<File,File>();
 	Map<File,File> filesToCopy = new HashMap<File,File>();
 	
-	/*
-	List<File> dirsToCopy = new ArrayList<File>();
-	List<File> dirsCopied = new ArrayList<File>();
-	*/
-	
 	public FileCopy(File source, File destination) {
 		super(source, destination);
 		SetFilesToCopyThread();

@@ -58,6 +58,8 @@ public class SelectSourceFragment extends Fragment {
 		
 		pager = (MyViewPager) getActivity().findViewById(R.id.viewpager);
 		
+		pre_debug();
+		
 		mButton = (ImageButton)mView.findViewById(R.id.btnScan);
 		mButton.setOnClickListener(new View.OnClickListener() {
 			
@@ -86,6 +88,18 @@ public class SelectSourceFragment extends Fragment {
 		});
 	}
 	
+	private void pre_debug() {
+		Button b = (Button)mView.findViewById(R.id.button1);
+		b.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				MainActivity.setSrc(Environment.getExternalStorageDirectory().toURI() + "Download/");
+				MainActivity.setDst(Environment.getExternalStorageDirectory().toURI() + "zDebug/");
+				pager.setCurrentItem(MainConstants.PAGER_SYNC_INDEX, true);
+			}
+		});
+	}
 
 	public void populateStorageList(List<String> deviceArrayList)
 	{
