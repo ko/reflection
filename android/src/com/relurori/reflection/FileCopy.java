@@ -31,8 +31,13 @@ public class FileCopy extends FileUtils {
 	
 	public FileCopy(File source, File destination) {
 		super(source, destination);
+		
+		tStatus = ToCopyThreadStatus.NOT_RUNNING;
+		cStatus = CopyThreadStatus.NOT_RUNNING;
+		
 		SetFilesToCopyThread();
 	}
+
 
 	private void SetFilesToCopyThread() {
 		new Thread(new Runnable() {
@@ -86,17 +91,23 @@ public class FileCopy extends FileUtils {
 
 			@Override
 			public void run() {
+				cStatus = CopyThreadStatus.RUNNING;
 				CopyFiles();
+				cStatus = CopyThreadStatus.COMPLETE;
 			}
 			
 		}).start();
 	}
 
 	private void CopyFiles() {
+		Log.d(TAG,"CopyFiles");
 		Iterator<Entry<File, File>> it = filesToCopy.entrySet().iterator();
+		Log.d(TAG,"CopyFiles|filesToCopy.size=" + filesToCopy.size());
 		while (it.hasNext()) {
 			Map.Entry<File, File> kv = (Entry<File, File>)it.next();
 			try {
+				Log.d(TAG,"CopyFiles|src=" + kv.getKey());
+				Log.d(TAG,"CopyFiles|dst=" + kv.getValue());
 				CopyFile(kv.getKey(),kv.getValue());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -104,6 +115,7 @@ public class FileCopy extends FileUtils {
 			}
 			// TODO keep track of copied files? for resume, presumably
 			filesCopied.put(kv.getKey(), kv.getValue());
+			// TODO remove current from filesToCopy?
 		}
 	}
 
@@ -172,6 +184,13 @@ public class FileCopy extends FileUtils {
 	}
 	
 	public int getFilesCopiedCount() {
+		return filesCopied.size();
+	}
+	
+	public int getCopyCount() {
+		if (cStatus != CopyThreadStatus.COMPLETE) {
+			Log.d(TAG,"getCopyCount|cStatus=" + cStatus);
+		}
 		return filesCopied.size();
 	}
 	
