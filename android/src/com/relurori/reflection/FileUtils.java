@@ -33,9 +33,11 @@ public class FileUtils {
 		String smd5, dmd5;
 		
 		if (source.exists() == false) {
+			//Log.d(TAG,"FileIsDuplicate|src dne=" + source.toURI());
 			return false;
 		}
 		if (destination.exists() == false) {
+			//Log.d(TAG,"FileIsDuplicate|dst dne=" + destination.toURI());
 			return false;
 		}
 		

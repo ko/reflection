@@ -60,6 +60,7 @@ public class FileCopy extends FileUtils {
 	
 	public void SetFilesToCopyRecursive(File source, File destination) {
 		if (FileIsDuplicate(source,destination)) {
+			//Log.d(TAG,"SetFilesToCopyRecursive|src=" + source.toURI());
 			return;
 		}
 		
@@ -67,6 +68,7 @@ public class FileCopy extends FileUtils {
 			String[] children = source.list();
 			
 			if (children == null) {
+				//Log.d(TAG,"SetFilesToCopyRecursive|source dir children empty");
 				return;
 			}
 			
@@ -74,6 +76,7 @@ public class FileCopy extends FileUtils {
 				SetFilesToCopyRecursive(new File(source,children[i]), new File(destination,children[i]));
 			}
 		} else if (source.isFile()) {
+			//Log.d(TAG,"SetFilesToCopyRecursive|add file=" + source.toURI());
 			filesToCopy.put(source,destination);
 		}
 	}

@@ -70,9 +70,13 @@ public class SyncFragment extends Fragment {
 				Log.d(TAG,"dstUri=" + dstUri);
 				
 				Uri uri = Uri.parse(srcUri);
-				src = new File(uri.toString());
+				src = new File(uri.getPath());
 				uri = Uri.parse(dstUri);
-				dst = new File(uri.toString());
+				dst = new File(uri.getPath());
+
+				Log.d(TAG,"pre|srcUri=" + srcUri);
+				Log.d(TAG,"pre|uri=" + uri.toString());
+				Log.d(TAG,"pre|src=" + src.toURI());
 				
 				Context ctx = getActivity().getApplicationContext();
 				ctx = getActivity();
