@@ -9,6 +9,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -93,11 +94,18 @@ public class SyncFragment extends Fragment {
 		File src, dst;
 		Context context;
 		FileCopy fileFunc;
+		PowerManager pm;
+		PowerManager.WakeLock wl;
 		
 		public CopyFilesAsync(Context ctx, File sFile, File dFile) {
 			src = sFile;
 			dst = dFile;
 			context = ctx;
+			
+			pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+			wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK |
+								PowerManager.ON_AFTER_RELEASE, 
+								TAG);
 		}
 
 		@Override
@@ -109,6 +117,8 @@ public class SyncFragment extends Fragment {
 			dialog.show();
 
 			fileFunc = new FileCopy(src,dst);
+			
+			wl.acquire();
 		}
 		
 		@Override
@@ -148,17 +158,11 @@ public class SyncFragment extends Fragment {
 			
 			dialog.dismiss();
 			
-			/*
-			try {
-				int progress = FileUtils.FileCountToCopy(src, dst);
-				publishProgress(progress);
-				FileUtils.CopyDirectory(src, dst, true);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			*/
-			
 			return null;
+		}
+		
+		protected void onPostExecute() {
+			wl.release();
 		}
 		
 		protected void onProgressUpdate(Integer...integers) {
