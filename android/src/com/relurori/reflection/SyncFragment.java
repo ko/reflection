@@ -137,10 +137,16 @@ public class SyncFragment extends Fragment {
 				toCopy = fileFunc.getFilesToCopyCount();
 				progress = (double) copied / (double) toCopy;
 				publishProgress((int) (progress * 100));
-
 				
+				try {
+					Thread.sleep(ONE_SECOND_TO_MS);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			
+			dialog.dismiss();
 			
 			/*
 			try {
