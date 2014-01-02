@@ -159,7 +159,8 @@ public class SyncFragment extends Fragment {
 				copied = fileFunc.getFilesCopiedCount();
 				toCopy = fileFunc.getFilesToCopyCount();
 				progress = (double) copied / (double) toCopy;
-				publishProgress((int) (progress * 100));
+				
+				((MainActivity)context).updateProgressDialog(progress * 100);
 				
 				try {
 					Thread.sleep(ONE_SECOND_TO_MS);

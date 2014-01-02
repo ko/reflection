@@ -105,7 +105,7 @@ public class MainActivity extends FragmentActivity {
 		DialogFragment frag = CopyDialogFragment.newInstance();
 		frag.show(fm, TAG);
 	}
-	
+
 	public void removeProgressDialog() {
 
 		FragmentManager fm = super.getSupportFragmentManager();
@@ -122,4 +122,10 @@ public class MainActivity extends FragmentActivity {
 		Log.d(TAG,"removeProgressDialog");
 	}
 
+	public void updateProgressDialog(double d) {
+		FragmentManager fm = super.getSupportFragmentManager();
+		Fragment f = fm.findFragmentByTag(TAG);
+		
+		((CopyDialogFragment)f).updateProgress(d);
+	}
 }

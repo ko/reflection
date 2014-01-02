@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 public class CopyDialogFragment extends DialogFragment {
 
@@ -52,6 +53,7 @@ public class CopyDialogFragment extends DialogFragment {
 	public ProgressDialog onCreateDialog(Bundle savedInstanceState) {
 		
 		ProgressDialog pd = new ProgressDialog(getActivity());
+
 		pd.setTitle("title=" + "j");
 		
 		pd.show();
@@ -61,5 +63,10 @@ public class CopyDialogFragment extends DialogFragment {
 	
 	public void dismissThis() {
 		getDialog().dismiss();
+	}
+	
+	public void updateProgress(double d) {
+		ProgressBar p = (ProgressBar)mView.findViewById(R.id.progressBar1);
+		p.setProgress((int) d);
 	}
 }
