@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -86,4 +90,36 @@ public class MainActivity extends FragmentActivity {
 	public static List<String> getDstList() {
 		return dstList;
 	}
+	
+	public void showProgressDialog() {
+		
+		FragmentManager fm = super.getSupportFragmentManager();
+		FragmentTransaction ft = fm.beginTransaction();
+		Fragment prev = fm.findFragmentByTag(TAG);
+		
+		if (prev != null) {
+			ft.remove(prev);
+		}
+		ft.addToBackStack(null);
+		
+		DialogFragment frag = CopyDialogFragment.newInstance();
+		frag.show(fm, TAG);
+	}
+	
+	public void removeProgressDialog() {
+
+		FragmentManager fm = super.getSupportFragmentManager();
+		FragmentTransaction ft = fm.beginTransaction();
+		Fragment prev = fm.findFragmentByTag(TAG);
+		
+		if (prev != null) {
+			ft.remove(prev);
+			((DialogFragment)prev).dismiss();
+		}
+		
+		ft.commit();
+		
+		Log.d(TAG,"removeProgressDialog");
+	}
+
 }

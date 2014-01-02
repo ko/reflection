@@ -10,7 +10,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,35 +92,46 @@ public class SyncFragment extends Fragment {
 
 	class CopyFilesAsync extends AsyncTask<Void,Integer,Void> {
 		
+		/*
 		private ProgressDialog dialog;
+		*/
 		File src, dst;
 		Context context;
 		FileCopy fileFunc;
 		PowerManager pm;
 		PowerManager.WakeLock wl;
 		
+		CopyDialogFragment cpDialog;
+		
+		
 		public CopyFilesAsync(Context ctx, File sFile, File dFile) {
 			src = sFile;
 			dst = dFile;
 			context = ctx;
+		}
+
+		@Override
+		protected void onPreExecute() {
 			
 			pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
 			wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK |
 								PowerManager.ON_AFTER_RELEASE, 
 								TAG);
-		}
-
-		@Override
-		protected void onPreExecute() {
+			
+			/*
 			dialog = new ProgressDialog(context);
 			dialog.setIndeterminate(true);
 			dialog.setMessage("Copying...");
 			dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 			dialog.show();
-
-			fileFunc = new FileCopy(src,dst);
+			*/
 			
 			wl.acquire();
+			
+
+			((MainActivity)context).showProgressDialog();
+
+			fileFunc = new FileCopy(src,dst);
 		}
 		
 		@Override
@@ -156,17 +169,29 @@ public class SyncFragment extends Fragment {
 				}
 			}
 			
-			dialog.dismiss();
+			Log.d(TAG,"doInBackground|copy complete");
+			
 			
 			return null;
 		}
 		
-		protected void onPostExecute() {
+		@Override
+		protected void onPostExecute(Void v) {
+			/*
+			dialog.dismiss();
+			 */
+
+			((MainActivity)context).removeProgressDialog();
+			
 			wl.release();
+			
+			
 		}
 		
 		protected void onProgressUpdate(Integer...integers) {
+			/*
 			dialog.setProgress(integers[0]);
+			*/
 		}
 	}
 }
