@@ -9,10 +9,12 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class CopyDialogFragment extends DialogFragment {
 
@@ -65,8 +67,16 @@ public class CopyDialogFragment extends DialogFragment {
 		getDialog().dismiss();
 	}
 	
-	public void updateProgress(double d) {
+	public void updateProgress(int d, int currentFile, int totalFile) {
 		ProgressBar p = (ProgressBar)mView.findViewById(R.id.progressBar1);
-		p.setProgress((int) d);
+		p.setProgress(d);
+		
+		TextView tv = (TextView)mView.findViewById(R.id.tvFileOfFile);
+
+		Log.d(TAG,"currentFile=" + currentFile + " totalFile=" + totalFile);
+		
+		tv.setText(currentFile + "/" + totalFile);
+		/*
+		*/
 	}
 }

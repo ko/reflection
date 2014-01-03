@@ -92,9 +92,6 @@ public class SyncFragment extends Fragment {
 
 	class CopyFilesAsync extends AsyncTask<Void,Integer,Void> {
 		
-		/*
-		private ProgressDialog dialog;
-		*/
 		File src, dst;
 		Context context;
 		FileCopy fileFunc;
@@ -117,15 +114,6 @@ public class SyncFragment extends Fragment {
 			wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK |
 								PowerManager.ON_AFTER_RELEASE, 
 								TAG);
-			
-			/*
-			dialog = new ProgressDialog(context);
-			dialog.setIndeterminate(true);
-			dialog.setMessage("Copying...");
-			dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			dialog.show();
-			*/
-			
 			wl.acquire();
 			
 
@@ -139,7 +127,7 @@ public class SyncFragment extends Fragment {
 
 			int ONE_SECOND_TO_MS = 1000;
 			int copied = 0, toCopy = 0;
-			double progress = 0;
+			int progress = 0;
 			
 			Log.d(TAG,"doInBackground|filesCopied=" + progress);
 			
@@ -153,14 +141,14 @@ public class SyncFragment extends Fragment {
 			}
 			
 			Log.d(TAG,"doInBackground|toCopy complete");
+			toCopy = fileFunc.getFilesToCopyCount();
 			fileFunc.CopyAllFiles();
 			
 			while (fileFunc.getCopyStatus() != FileCopyConstants.CopyThreadStatus.COMPLETE) {
 				copied = fileFunc.getFilesCopiedCount();
-				toCopy = fileFunc.getFilesToCopyCount();
-				progress = (double) copied / (double) toCopy;
+				progress = (int) (((double) copied / (double) toCopy) * 100);
 				
-				((MainActivity)context).updateProgressDialog(progress * 100);
+				publishProgress(progress, copied, toCopy);
 				
 				try {
 					Thread.sleep(ONE_SECOND_TO_MS);
@@ -178,21 +166,18 @@ public class SyncFragment extends Fragment {
 		
 		@Override
 		protected void onPostExecute(Void v) {
-			/*
-			dialog.dismiss();
-			 */
 
 			((MainActivity)context).removeProgressDialog();
 			
 			wl.release();
 			
-			
 		}
 		
-		protected void onProgressUpdate(Integer...integers) {
-			/*
-			dialog.setProgress(integers[0]);
-			*/
+		@Override
+		protected void onProgressUpdate(Integer... progress) {
+			
+			((MainActivity)context).updateProgressDialog(progress[0], progress[1], progress[2]);
+			
 		}
 	}
 }

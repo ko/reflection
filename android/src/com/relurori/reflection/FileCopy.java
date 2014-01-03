@@ -100,14 +100,20 @@ public class FileCopy extends FileUtils {
 	}
 
 	private void CopyFiles() {
+		
 		Log.d(TAG,"CopyFiles");
+		
 		Iterator<Entry<File, File>> it = filesToCopy.entrySet().iterator();
+		
 		Log.d(TAG,"CopyFiles|filesToCopy.size=" + filesToCopy.size());
+		
 		while (it.hasNext()) {
 			Map.Entry<File, File> kv = (Entry<File, File>)it.next();
 			try {
+				
 				Log.d(TAG,"CopyFiles|src=" + kv.getKey());
 				Log.d(TAG,"CopyFiles|dst=" + kv.getValue());
+				
 				CopyFile(kv.getKey(),kv.getValue());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -117,15 +123,24 @@ public class FileCopy extends FileUtils {
 			filesCopied.put(kv.getKey(), kv.getValue());
 			// TODO remove current from filesToCopy?
 		}
+		
+		Log.d(TAG,"CopyFiles|done");
+		
 	}
 
 	private void CopyFile(File source, File destination) throws IOException {
+		
+
+		mkdirIfNeeded(destination);
+		
+		
 		// File!
 		InputStream in = new FileInputStream(source);
 		OutputStream out = new FileOutputStream(destination);
 		
 		byte[] buf = new byte[1024];
 		int len;
+		
 		
 		while ((len = in.read(buf)) > 0) {
 			out.write(buf, 0, len);
@@ -135,46 +150,14 @@ public class FileCopy extends FileUtils {
 		out.close();
 	}
 
-	/*
-	public void CopyDirectory() throws IOException {
-		CopyDirectoryRecursive(src,dst,true);
+	private void mkdirIfNeeded(File destination) {
+		Log.d(TAG,"mkdirIfNeeded|destination=" + destination);
+		Log.d(TAG,"mkdirIfNeeded|destination.getParentFile=" + destination.getParentFile());
+		if (destination.getParentFile().exists() == false) {
+			destination.getParentFile().mkdirs();
+		}
 	}
-	
-	public static void CopyDirectoryRecursive(File source, File destination, boolean recursive) throws IOException {
 
-		if (FileIsDuplicate(source,destination)) {
-			return;
-		}
-		
-		if (source.isDirectory()) {
-			// like -p
-			if (destination.exists() == false) {
-				destination.mkdirs();
-			}
-			
-			String[] children = source.list();
-			for (int i = 0; i < source.listFiles().length; i++) {
-				CopyDirectoryRecursive(new File(source, children[i]), 
-										new File(destination, children[i]), 
-										recursive);
-			}
-		} else {
-			// File!
-			InputStream in = new FileInputStream(source);
-			OutputStream out = new FileOutputStream(destination);
-			
-			byte[] buf = new byte[1024];
-			int len;
-			
-			while ((len = in.read(buf)) > 0) {
-				out.write(buf, 0, len);
-			}
-			
-			in.close();
-			out.close();
-		}
-	}
-	*/
 
 	public int getFilesToCopyCount() {
 		if (tStatus != ToCopyThreadStatus.COMPLETE) {
@@ -184,16 +167,12 @@ public class FileCopy extends FileUtils {
 	}
 	
 	public int getFilesCopiedCount() {
-		return filesCopied.size();
-	}
-	
-	public int getCopyCount() {
 		if (cStatus != CopyThreadStatus.COMPLETE) {
 			Log.d(TAG,"getCopyCount|cStatus=" + cStatus);
 		}
 		return filesCopied.size();
 	}
-	
+
 	public CopyThreadStatus getCopyStatus() {
 		return cStatus;
 	}
