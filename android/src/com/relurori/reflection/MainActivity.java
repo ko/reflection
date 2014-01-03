@@ -14,6 +14,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -26,9 +29,11 @@ public class MainActivity extends FragmentActivity {
 	
 	private static String src = null;
 	private static String dst = null;
+	private static String pre = null;
 	
 	private static List<String> srcList = null;
 	private static List<String> dstList = null;
+	private static List<String> preList = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,53 @@ public class MainActivity extends FragmentActivity {
 		setContentView(R.layout.activity_main_fragments);
 
 		pre();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(final Menu menu) {
+		
+		final int MENU_PREFERENCES = Menu.FIRST;
+		
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main, menu);
+		
+		/*
+		menu.add(0, MENU_PREFERENCES, 0, "Restart")
+			.setIcon(android.R.drawable.ic_menu_revert);
+		*/
+		
+		return true;
+		
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		super.onOptionsItemSelected(item);
+		
+		int menuId = item.getItemId();
+		
+		switch(menuId) {
+		case R.id.action_settings:
+			break;
+		case R.id.action_restart:
+			restartSteps();
+			break;
+		}
+		return true;
+	}
+
+	private void restartSteps() {
+		// TODO Auto-generated method stub
+		
+		pager.setCurrentItem(MainConstants.PAGER_SRC_INDEX);
+		MainActivity.setSrc("");
+		MainActivity.setSrcList(null);
+		MainActivity.setDst("");
+		MainActivity.setDstList(null);
+		/*
+		MainActivity.setPre("");
+		MainActivity.setPreList(null);
+		*/
 	}
 
 	private void pre() {
@@ -91,6 +143,23 @@ public class MainActivity extends FragmentActivity {
 		return dstList;
 	}
 	
+
+	public static void setPre(String string) {
+		pre = string;
+	}
+	
+	public static String getPre() {
+		return pre;
+	}
+	
+	public static void setPreList(List<String> list) {
+		preList = list;
+	}
+	
+	public static List<String> getPreList() {
+		return preList;
+	}
+	
 	public void showProgressDialog() {
 		
 		FragmentManager fm = super.getSupportFragmentManager();
@@ -128,4 +197,5 @@ public class MainActivity extends FragmentActivity {
 		
 		((CopyDialogFragment)f).updateProgress(d, currentFile, totalFile);
 	}
+
 }

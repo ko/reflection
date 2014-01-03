@@ -49,9 +49,17 @@ public class SelectSourceFragment extends Fragment {
 		pre();
 		
 		Log.d(TAG,"2");
-		populateStorageList(preDevList);
+		// TODO save this somewhere
+		getPreDevList();
 		
 		return mView;
+	}
+
+	private void getPreDevList() {
+		
+		populateStorageList(preDevList);
+		MainActivity.setPre(preDevList.toString());
+		MainActivity.setPreList(preDevList);
 	}
 
 	private void pre() {
@@ -66,10 +74,18 @@ public class SelectSourceFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				
+				
+				List<String> myPre = MainActivity.getPreList();
+				if (myPre == null) {
+					// we've been reset recently?
+					
+				}
+				
+				
 		        populateStorageList(postDevList);
 		        
 		        for (int i = 0; i < postDevList.size(); i++) {
-		        	if (preDevList.contains(postDevList.get(i)) == false) {
+		        	if (myPre.contains(postDevList.get(i)) == false) {
 		        		newDevList.add(postDevList.get(i));
 		        	}
 		        }
