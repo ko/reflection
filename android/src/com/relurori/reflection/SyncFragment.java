@@ -158,8 +158,18 @@ public class SyncFragment extends Fragment {
 				}
 			}
 			
-			Log.d(TAG,"doInBackground|copy complete");
+			// aesthetics purely
+			if (toCopy > 0) {
+				publishProgress(100, toCopy, toCopy);
+				try {
+					Thread.sleep((int)(ONE_SECOND_TO_MS * 0.5));
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			
+			Log.d(TAG,"doInBackground|copy complete");
 			
 			return null;
 		}
