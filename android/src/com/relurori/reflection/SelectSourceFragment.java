@@ -50,12 +50,12 @@ public class SelectSourceFragment extends Fragment {
 		
 		Log.d(TAG,"2");
 		// TODO save this somewhere
-		getPreDevList();
+		getSetPreDevList();
 		
 		return mView;
 	}
 
-	private void getPreDevList() {
+	private void getSetPreDevList() {
 		
 		populateStorageList(preDevList);
 		MainActivity.setPre(preDevList.toString());
@@ -77,8 +77,7 @@ public class SelectSourceFragment extends Fragment {
 				
 				List<String> myPre = MainActivity.getPreList();
 				if (myPre == null) {
-					// we've been reset recently?
-					
+					// should not happen. at all.
 				}
 				
 				

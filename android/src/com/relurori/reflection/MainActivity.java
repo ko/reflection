@@ -79,6 +79,9 @@ public class MainActivity extends FragmentActivity {
 	private void restartSteps() {
 		// TODO Auto-generated method stub
 		
+		DialogFragment f = RestartDialogFragment.newInstance();
+		f.show(super.getSupportFragmentManager(), RestartDialogFragment.TAG);
+		
 		pager.setCurrentItem(MainConstants.PAGER_SRC_INDEX);
 		MainActivity.setSrc("");
 		MainActivity.setSrcList(null);
