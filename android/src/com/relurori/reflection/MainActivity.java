@@ -101,6 +101,7 @@ public class MainActivity extends FragmentActivity {
 		fragments.add(Fragment.instantiate(this, SelectSourceFragment.class.getName()));
 		fragments.add(Fragment.instantiate(this, SelectDestinationFragment.class.getName()));
 		fragments.add(Fragment.instantiate(this, SyncFragment.class.getName()));
+		fragments.add(Fragment.instantiate(this, SyncDoneFragment.class.getName()));
 		
 		Log.d(TAG,"3");
 		mPagerAdapter = new MainPagerAdapter(super.getSupportFragmentManager(), fragments);

@@ -13,6 +13,7 @@ import android.os.PowerManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ public class SyncFragment extends Fragment {
 	
 	private View mView = null;
 	private ImageButton mButton;
+	private ViewPager pager = null;
 	
 	private TextView tv;
 	
@@ -53,6 +55,9 @@ public class SyncFragment extends Fragment {
 	}
 
 	private void pre() {
+		
+		pager = (MyViewPager) getActivity().findViewById(R.id.viewpager);
+		
 		tv = (TextView) mView.findViewById(R.id.textView1);
 		
 		tv.setText(MainActivity.getSrc() + " to " + MainActivity.getDst());
@@ -181,6 +186,7 @@ public class SyncFragment extends Fragment {
 			
 			wl.release();
 			
+			pager.setCurrentItem(MainConstants.PAGER_DONE_INDEX, true);
 		}
 		
 		@Override
