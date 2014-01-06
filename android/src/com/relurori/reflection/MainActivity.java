@@ -83,14 +83,20 @@ public class MainActivity extends FragmentActivity {
 		f.show(super.getSupportFragmentManager(), RestartDialogFragment.TAG);
 		
 		pager.setCurrentItem(MainConstants.PAGER_SRC_INDEX);
-		MainActivity.setSrc("");
-		MainActivity.setSrcList(null);
-		MainActivity.setDst("");
-		MainActivity.setDstList(null);
+		MainActivity.resetSrcDst();
+		
 		/*
 		MainActivity.setPre("");
 		MainActivity.setPreList(null);
 		*/
+	}
+	
+	public static void resetSrcDst() {
+
+		MainActivity.setSrc("");
+		MainActivity.setSrcList(null);
+		MainActivity.setDst("");
+		MainActivity.setDstList(null);
 	}
 
 	private void pre() {
@@ -202,4 +208,5 @@ public class MainActivity extends FragmentActivity {
 		((CopyDialogFragment)f).updateProgress(d, currentFile, totalFile);
 	}
 
+	
 }

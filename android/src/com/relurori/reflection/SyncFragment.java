@@ -95,7 +95,7 @@ public class SyncFragment extends Fragment {
 	}
 	
 
-	class CopyFilesAsync extends AsyncTask<Void,Integer,Void> {
+	class CopyFilesAsync extends AsyncTask<Void,Integer,Integer[]> {
 		
 		File src, dst;
 		Context context;
@@ -128,7 +128,7 @@ public class SyncFragment extends Fragment {
 		}
 		
 		@Override
-		protected Void doInBackground(Void... voids) {
+		protected Integer[] doInBackground(Void... voids) {
 
 			int ONE_SECOND_TO_MS = 1000;
 			int copied = 0, toCopy = 0;
@@ -176,15 +176,24 @@ public class SyncFragment extends Fragment {
 			
 			Log.d(TAG,"doInBackground|copy complete");
 			
-			return null;
+			Integer[] ret = new Integer[2];
+			ret[0] = copied;
+			ret[1] = toCopy;
+			return ret;
 		}
 		
 		@Override
-		protected void onPostExecute(Void v) {
+		protected void onPostExecute(Integer... i) {
 
 			((MainActivity)context).removeProgressDialog();
 			
 			wl.release();
+	
+			/* as long as SyncDoneFragment proceeds SyncFragment, it
+			 * will have been inflated/instantiated/created.
+			 */
+			SyncDoneFragment.setCopied(i[0],i[1]);
+			
 			
 			pager.setCurrentItem(MainConstants.PAGER_DONE_INDEX, true);
 		}

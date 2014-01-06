@@ -20,4 +20,28 @@
         android:text="Medium Text"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1" 
+        android:layout_centerHorizontal="true" >
+
+        <Button
+            android:id="@+id/bResync"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Retry Sync" />
+	
+	    <Button
+	        android:id="@+id/bRetry"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_toRightOf="@+id/bResync"
+        	android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+	        android:text="Restart All" />
+    </RelativeLayout>
+
 </RelativeLayout>
