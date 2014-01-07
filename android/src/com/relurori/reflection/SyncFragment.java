@@ -62,6 +62,13 @@ public class SyncFragment extends Fragment {
 		
 		tv.setText(MainActivity.getSrc() + " to " + MainActivity.getDst());
 		
+		
+		
+		/***** DEBUG *****/
+		tv.setVisibility(View.GONE);
+		
+		
+		
 		mButton = (ImageButton)mView.findViewById(R.id.btnSync);
 		mButton.setOnClickListener(new View.OnClickListener() {
 			

@@ -114,6 +114,11 @@ public class SelectSourceFragment extends Fragment {
 				pager.setCurrentItem(MainConstants.PAGER_SYNC_INDEX, true);
 			}
 		});
+		
+		
+
+		/***** DEBUG *****/
+		b.setVisibility(View.GONE);
 	}
 
 	public void populateStorageList(List<String> deviceArrayList)
