@@ -1,8 +1,11 @@
 package com.relurori.reflection;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.relurori.reflection.usbdevice.MountPoint;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -23,7 +26,7 @@ import android.widget.Toast;
 
 public class SelectSourceFragment extends Fragment {
 
-	private static final String TAG = SelectSourceFragment.class.getSimpleName();
+	private final String TAG = SelectSourceFragment.class.getSimpleName();
 	
 	private View mView = null;
 	private MyViewPager pager = null;
@@ -109,6 +112,15 @@ public class SelectSourceFragment extends Fragment {
 			
 			@Override
 			public void onClick(View arg0) {
+				
+				try {
+					List<String> lines = MountPoint.catProcMounts();
+					Log.d(TAG, lines.toString());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				MainActivity.setSrc(Environment.getExternalStorageDirectory().toURI() + "Download/");
 				MainActivity.setDst(Environment.getExternalStorageDirectory().toURI() + "zDebug/");
 				pager.setCurrentItem(MainConstants.PAGER_SYNC_INDEX, true);
@@ -118,7 +130,7 @@ public class SelectSourceFragment extends Fragment {
 		
 
 		/***** DEBUG *****/
-		b.setVisibility(View.GONE);
+		//b.setVisibility(View.GONE);
 	}
 
 	public void populateStorageList(List<String> deviceArrayList)
