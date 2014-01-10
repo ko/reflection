@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.relurori.reflection.usbdevice.MountPoint;
+import com.relurori.reflection.usbdevice.ProcMountsLine;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -113,13 +114,9 @@ public class SelectSourceFragment extends Fragment {
 			@Override
 			public void onClick(View arg0) {
 				
-				try {
-					List<String> lines = MountPoint.catProcMounts();
-					Log.d(TAG, lines.toString());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+
+				/********* TESTING **********/
+				parseMountPoints();
 				
 				MainActivity.setSrc(Environment.getExternalStorageDirectory().toURI() + "Download/");
 				MainActivity.setDst(Environment.getExternalStorageDirectory().toURI() + "zDebug/");
@@ -131,6 +128,18 @@ public class SelectSourceFragment extends Fragment {
 
 		/***** DEBUG *****/
 		//b.setVisibility(View.GONE);
+	}
+
+	/********* TESTING **********/
+	protected void parseMountPoints() {
+		try {
+			List<String> lines = MountPoint.catProcMounts();
+			List<ProcMountsLine> parsed = MountPoint.parseProcMounts(lines);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void populateStorageList(List<String> deviceArrayList)

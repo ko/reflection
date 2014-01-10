@@ -9,12 +9,16 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import android.graphics.Path;
 import android.net.Uri;
+import android.util.Log;
 
 public class MountPoint {
 
+	private final static String TAG = MountPoint.class.getSimpleName();
+	
 	public static List<String> catProcMounts() throws IOException {
 		FileInputStream fis = new FileInputStream("/proc/mounts");
 		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
@@ -29,11 +33,40 @@ public class MountPoint {
 		return lines;
 	}
 	
-	public static List<String> parseProcMounts(List<String> lines) {
-		List<String> parsed = new ArrayList<String>();
+	public static List<ProcMountsLine> parseProcMounts(List<String> lines) {
+		List<ProcMountsLine> parsed = new ArrayList<ProcMountsLine>();
+		ProcMountsLine parsedLine;
 		
-		
+		StringTokenizer st;
+		for (String line : lines) { 
+			st = new StringTokenizer(line);
+			parsedLine = parseProcMountsLine(st);
+			
+			parsed.add(parsedLine);
+		}
 		
 		return parsed;
+	}
+
+	private static ProcMountsLine parseProcMountsLine(StringTokenizer st) {
+		
+		ProcMountsLine line = new ProcMountsLine();
+		
+		int n = 0;
+		
+		while (st.hasMoreElements()) {
+
+			switch(n) {
+			case ProcMountsConstants.DEV_NODE_INDEX:
+				line.setDevNode((String) st.nextElement());
+				break;
+			case ProcMountsConstants.MOUNT_POINT_INDEX:
+				line.setMountPoint((String) st.nextElement());
+				break;
+			}
+			n++;
+		}
+		
+		return line;
 	}
 }
