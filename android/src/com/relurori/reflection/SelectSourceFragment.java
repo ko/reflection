@@ -32,9 +32,10 @@ public class SelectSourceFragment extends Fragment {
 	private View mView = null;
 	private MyViewPager pager = null;
 	private ImageButton mButton;
-	List<String> postDevList = new ArrayList<String>();
-	List<String> preDevList = new ArrayList<String>();
-	List<String> newDevList = new ArrayList<String>();
+	
+	List<ProcMountsLine> preDevLines = new ArrayList<ProcMountsLine>();
+	List<ProcMountsLine> postDevLines = new ArrayList<ProcMountsLine>();
+	List<ProcMountsLine> newDevLines = new ArrayList<ProcMountsLine>();
 	
 	public SelectSourceFragment() {}
 	
@@ -54,16 +55,24 @@ public class SelectSourceFragment extends Fragment {
 		
 		Log.d(TAG,"2");
 		// TODO save this somewhere
-		getSetPreDevList();
+		getSetPreDevLines();
+		
+		Log.d(TAG,"3");
 		
 		return mView;
 	}
-
-	private void getSetPreDevList() {
+	
+	private void getSetPreDevLines() {
 		
-		populateStorageList(preDevList);
-		MainActivity.setPre(preDevList.toString());
-		MainActivity.setPreList(preDevList);
+		try {
+			preDevLines = MountPoint.getProcMountsLines();
+			MainActivity.setPreLines(preDevLines);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	private void pre() {
@@ -78,29 +87,33 @@ public class SelectSourceFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				
-				
-				List<String> myPre = MainActivity.getPreList();
-				if (myPre == null) {
-					// should not happen. at all.
+		        try {
+					postDevLines = MountPoint.getProcMountsLines();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				
-				
-		        populateStorageList(postDevList);
 		        
-		        for (int i = 0; i < postDevList.size(); i++) {
-		        	if (myPre.contains(postDevList.get(i)) == false) {
-		        		newDevList.add(postDevList.get(i));
+		        for (int i = 0; i < postDevLines.size(); i++) {
+		        	// TODO compare a larger set of info (devnode, mountpoint, etc.)
+		        	// for a better comparison?
+		        	if (preDevLines.get(i).getMountPoint().equals(postDevLines.get(i).getMountPoint()) == false) {
+		        		newDevLines.add(postDevLines.get(i));
+		        		
+		        		Log.d(TAG,"DNE=" + postDevLines.get(i));
+		        		Log.d(TAG,"preMP =" + preDevLines.get(i).getMountPoint());
+		        		Log.d(TAG,"postMP=" + postDevLines.get(i).getMountPoint());
+		        		
 		        	}
 		        }
 		        
-		        if (newDevList.isEmpty()) {
+		        if (newDevLines.isEmpty()) {
 		        	Log.d(TAG,"empty source");
 		        	Toast.makeText(getActivity().getBaseContext(), "Device not found.", Toast.LENGTH_LONG).show();
 		        	return;
 		        }
 		        
-		        MainActivity.setSrc(newDevList.toString());
-		        MainActivity.setSrcList(postDevList);
+		        MainActivity.setSrcLines(newDevLines);
 		        
 		        pager.setCurrentItem(MainConstants.PAGER_DST_INDEX, true);
 			}
@@ -141,19 +154,4 @@ public class SelectSourceFragment extends Fragment {
 			e.printStackTrace();
 		}
 	}
-
-	public void populateStorageList(List<String> deviceArrayList)
-	{
-	    File innerDir = Environment.getExternalStorageDirectory();	/* as /storage/emulated/0 */
-	    File rootDir = innerDir.getParentFile();	/* as /storage/emulated */
-	    rootDir = rootDir.getParentFile();			/* as /storage */
-	    File firstExtSdCard = innerDir ;
-	    File[] files = rootDir.listFiles();
-	    for (File file : files) {
-	    	if (file.listFiles() != null) {
-	    		deviceArrayList.add(file.toURI().toString() /*+ "|" + file.listFiles().length */);
-	    	}
-	    }
-	}
-	
 }

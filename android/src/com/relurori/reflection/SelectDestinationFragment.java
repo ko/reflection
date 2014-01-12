@@ -1,8 +1,12 @@
 package com.relurori.reflection;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.relurori.reflection.usbdevice.MountPoint;
+import com.relurori.reflection.usbdevice.ProcMountsLine;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -25,9 +29,9 @@ public class SelectDestinationFragment extends Fragment {
 	private View mView = null;
 	private MyViewPager pager = null;
 	private ImageButton mButton;
-	List<String> postDevList = new ArrayList<String>();
-	List<String> preDevList = new ArrayList<String>();
-	List<String> newDevList = new ArrayList<String>();
+	List<ProcMountsLine> postDevLines = new ArrayList<ProcMountsLine>();
+	List<ProcMountsLine> preDevLines = new ArrayList<ProcMountsLine>();
+	List<ProcMountsLine> newDevLines = new ArrayList<ProcMountsLine>();
 	
 	public SelectDestinationFragment() {}
 	
@@ -54,44 +58,34 @@ public class SelectDestinationFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				
-				preDevList = MainActivity.getSrcList();
-		        
-		        populateStorageList(postDevList);
+				preDevLines = MainActivity.getSrcLines();
+				
+		        try {
+					postDevLines = MountPoint.getProcMountsLines();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
-		        for (int i = 0; i < postDevList.size(); i++) {
-		        	if (preDevList.contains(postDevList.get(i)) == false) {
-		        		newDevList.add(postDevList.get(i));
+		        for (int i = 0; i < postDevLines.size(); i++) {
+		        	// TODO compare a larger set of info (devnode, mountpoint, etc.)
+		        	// for a better comparison?
+		        	if (preDevLines.get(i).getMountPoint().equals(postDevLines.get(i).getMountPoint()) == false) {
+		        		newDevLines.add(postDevLines.get(i));
 		        	}
 		        }
 
-		        if (newDevList.isEmpty()) {
+		        if (newDevLines.isEmpty()) {
 		        	Log.d(TAG,"empty dst");
 		        	Toast.makeText(getActivity().getBaseContext(), "Device not found.", Toast.LENGTH_LONG).show();
 		        	return;
 		        } 
 		        
-		        MainActivity.setDst(newDevList.toString());
-		        MainActivity.setDstList(postDevList);
+		        MainActivity.setDstLines(newDevLines);
 		        
 		        pager.setCurrentItem(MainConstants.PAGER_SYNC_INDEX, true);
 			}
 		});
-	}
-
-
-
-	public void populateStorageList(List<String> deviceArrayList)
-	{
-	    File innerDir = Environment.getExternalStorageDirectory();	/* as /storage/emulated/0 */
-	    File rootDir = innerDir.getParentFile();	/* as /storage/emulated */
-	    rootDir = rootDir.getParentFile();			/* as /storage */
-	    File firstExtSdCard = innerDir ;
-	    File[] files = rootDir.listFiles();
-	    for (File file : files) {
-	    	if (file.listFiles() != null) {
-	    		deviceArrayList.add(file.toURI().toString() /*+ "|" + file.listFiles().length */);
-	    	}
-	    }
 	}
 	
 }

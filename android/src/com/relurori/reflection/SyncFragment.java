@@ -65,7 +65,7 @@ public class SyncFragment extends Fragment {
 		
 		
 		/***** DEBUG *****/
-		tv.setVisibility(View.GONE);
+		//tv.setVisibility(View.GONE);
 		
 		
 		

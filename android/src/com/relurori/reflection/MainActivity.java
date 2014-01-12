@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import com.relurori.reflection.usbdevice.ProcMountsLine;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -27,13 +29,12 @@ public class MainActivity extends FragmentActivity {
 	private PagerAdapter mPagerAdapter = null;
 	private MyViewPager pager = null;
 	
-	private static String src = null;
-	private static String dst = null;
-	private static String pre = null;
+	private static String srcPath = null;
+	private static String dstPath = null;
 	
-	private static List<String> srcList = null;
-	private static List<String> dstList = null;
-	private static List<String> preList = null;
+	private static List<ProcMountsLine> preLines = null;
+	private static List<ProcMountsLine> srcLines = null;
+	private static List<ProcMountsLine> dstLines = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,11 +93,10 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	public static void resetSrcDst() {
-
-		MainActivity.setSrc("");
-		MainActivity.setSrcList(null);
-		MainActivity.setDst("");
-		MainActivity.setDstList(null);
+		
+		MainActivity.setSrcLines(null);
+		MainActivity.setDstLines(null);
+		
 	}
 
 	private void pre() {
@@ -121,54 +121,52 @@ public class MainActivity extends FragmentActivity {
 		Log.d(TAG,"6");
 	}
 	
-	public static void setSrc(String source) {
-		src = source;
-	}
-
-	public static String getSrc() {
-		return src;
+	
+	/***************************** String paths ********************************/
+	public static void setSrc(String s) {
+		srcPath = s;
 	}
 	
-	public static void setDst(String destination) {
-		dst = destination;
+	public static String getSrc() {
+		return srcPath;
+	}
+	
+	public static void setDst(String s) {
+		dstPath = s;
 	}
 	
 	public static String getDst() {
-		return dst;
+		return dstPath;
 	}
 	
-	public static void setSrcList(List<String> list) {
-		srcList = list;
+	/***************************** List<ProcMountsLine> ************************/
+	
+	public static void setPreLines(List<ProcMountsLine> lines) {
+		preLines = lines;
 	}
 	
-	public static void setDstList(List<String> list) {
-		dstList = list;
+	public static List<ProcMountsLine> getPreLines() {
+		return preLines;
 	}
 	
-	public static List<String> getSrcList() {
-		return srcList;
+	public static void setSrcLines(List<ProcMountsLine> lines) {
+		srcLines = lines;
+		setSrc(lines.get(0).getMountPoint());
 	}
 	
-	public static List<String> getDstList() {
-		return dstList;
+	public static List<ProcMountsLine> getSrcLines() {
+		return srcLines;
 	}
 	
-
-	public static void setPre(String string) {
-		pre = string;
+	public static void setDstLines(List<ProcMountsLine> lines) {
+		dstLines = lines;
+		setDst(lines.get(0).getMountPoint());
 	}
 	
-	public static String getPre() {
-		return pre;
+	public static List<ProcMountsLine> getDstLines() {
+		return dstLines;
 	}
 	
-	public static void setPreList(List<String> list) {
-		preList = list;
-	}
-	
-	public static List<String> getPreList() {
-		return preList;
-	}
 	
 	public void showProgressDialog() {
 		
