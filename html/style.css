@@ -1,0 +1,20 @@
+body {
+    margin:0;
+    font-family: 'Open Sans';
+}
+
+p {
+    font-size: 3em;
+    color:#555;
+}
+
+#box {
+    height:25em;
+    background-color:#dedede;
+    padding-left:20em;
+    padding-right:20em;
+    padding-top:5em;
+    padding-bottom:5em;
+}
+
+
