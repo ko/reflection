@@ -21,13 +21,25 @@ img {
 
 
 #box {
-    height:24em;
-/*    background-color:#dedede; */
+    min-height:20em;
     background-color:white;
     padding-left:20em;
     padding-right:20em;
-    padding-top:5em;
-    padding-bottom:5em;
+    padding-top:2em;
 }
 
 
+.img_right {
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    margin-left:25em;
+    display: block;
+}
+
+
+.img_left {
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    margin-left:3em;
+    display: block;
+}
