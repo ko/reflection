@@ -97,6 +97,8 @@ public class SelectSourceFragment extends Fragment {
 		        for (int i = 0; i < postDevLines.size(); i++) {
 		        	// TODO compare a larger set of info (devnode, mountpoint, etc.)
 		        	// for a better comparison?
+		        	Log.d(TAG,"ISS22: preDevLines.size()=" + preDevLines.size());
+		        	Log.d(TAG,"ISS22: postDevLines.size()=" + postDevLines.size());
 		        	if (preDevLines.get(i).getMountPoint().equals(postDevLines.get(i).getMountPoint()) == false) {
 		        		newDevLines.add(postDevLines.get(i));
 		        		
