@@ -95,17 +95,19 @@ public class SelectSourceFragment extends Fragment {
 				}
 		        
 		        for (int i = 0; i < postDevLines.size(); i++) {
-		        	// TODO compare a larger set of info (devnode, mountpoint, etc.)
-		        	// for a better comparison?
-		        	Log.d(TAG,"ISS22: preDevLines.size()=" + preDevLines.size());
-		        	Log.d(TAG,"ISS22: postDevLines.size()=" + postDevLines.size());
-		        	if (preDevLines.get(i).getMountPoint().equals(postDevLines.get(i).getMountPoint()) == false) {
-		        		newDevLines.add(postDevLines.get(i));
+		        	for (int j = 0; j < preDevLines.size(); j++) {
+
+			        	// TODO compare a larger set of info (devnode, mountpoint, etc.)
+			        	// for a better comparison?
 		        		
-		        		Log.d(TAG,"DNE=" + postDevLines.get(i));
-		        		Log.d(TAG,"preMP =" + preDevLines.get(i).getMountPoint());
-		        		Log.d(TAG,"postMP=" + postDevLines.get(i).getMountPoint());
-		        		
+			        	if (preDevLines.get(j).getMountPoint().equals(postDevLines.get(i).getMountPoint()) == false) {
+			        		newDevLines.add(postDevLines.get(i));
+			        		
+			        		Log.d(TAG,"DNE=" + postDevLines.get(i));
+			        		Log.d(TAG,"preMP =" + preDevLines.get(j).getMountPoint());
+			        		Log.d(TAG,"postMP=" + postDevLines.get(i).getMountPoint());
+			        		
+			        	}
 		        	}
 		        }
 		        
