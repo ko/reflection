@@ -24,7 +24,7 @@ import android.widget.Button;
 
 public class MainActivity extends FragmentActivity {
 
-	private final String TAG = MainActivity.class.getSimpleName();
+	private final String TAG = MainActivity.class.getCanonicalName();
 
 	private PagerAdapter mPagerAdapter = null;
 	private MyViewPager pager = null;

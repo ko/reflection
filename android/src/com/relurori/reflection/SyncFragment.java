@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 public class SyncFragment extends Fragment {
 
-	private static final String TAG = SyncFragment.class.getSimpleName();
+	private static final String TAG = SyncFragment.class.getCanonicalName();
 	
 	private View mView = null;
 	private ImageButton mButton;

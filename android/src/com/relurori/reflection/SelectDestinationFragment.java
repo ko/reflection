@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 public class SelectDestinationFragment extends Fragment {
 
-	private String TAG = SelectDestinationFragment.class.getSimpleName();
+	private String TAG = SelectDestinationFragment.class.getCanonicalName();
 	
 	private View mView = null;
 	private MyViewPager pager = null;
