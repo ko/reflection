@@ -21,7 +21,7 @@ import android.util.Log;
 
 public class FileCopy extends FileUtils {
 
-	private static final String TAG = FileCopy.class.getSimpleName();
+	private static final String TAG = FileCopy.class.getCanonicalName();
 	
 	ToCopyThreadStatus tStatus = ToCopyThreadStatus.NOT_RUNNING;
 	CopyThreadStatus cStatus = CopyThreadStatus.NOT_RUNNING;

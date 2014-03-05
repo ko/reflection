@@ -27,7 +27,7 @@ import android.widget.Toast;
 
 public class SelectSourceFragment extends Fragment {
 
-	private final String TAG = SelectSourceFragment.class.getSimpleName();
+	private final String TAG = SelectSourceFragment.class.getCanonicalName();
 	
 	private View mView = null;
 	private MyViewPager pager = null;
@@ -94,16 +94,26 @@ public class SelectSourceFragment extends Fragment {
 					e.printStackTrace();
 				}
 		        
-		        for (int i = 0; i < postDevLines.size(); i++) {
-		        	// TODO compare a larger set of info (devnode, mountpoint, etc.)
-		        	// for a better comparison?
-		        	if (preDevLines.get(i).getMountPoint().equals(postDevLines.get(i).getMountPoint()) == false) {
-		        		newDevLines.add(postDevLines.get(i));
+		        if (postDevLines.size() <= preDevLines.size()) {
+		        	// should never happen
+		        	Log.d(TAG,"size post is <= pre");
+		        	return;
+		        }
+		        
+		        for (ProcMountsLine pml : postDevLines) {
+		        	newDevLines.add(new ProcMountsLine(pml.getDevNode(),pml.getMountPoint()));
+		        }
+		        
+		        for (int i = 0; i < newDevLines.size(); i++) {
+		        	for (int j = 0; j < preDevLines.size(); j++) {
+
+			        	// TODO compare a larger set of info (devnode, mountpoint, etc.)
+			        	// for a better comparison?
 		        		
-		        		Log.d(TAG,"DNE=" + postDevLines.get(i));
-		        		Log.d(TAG,"preMP =" + preDevLines.get(i).getMountPoint());
-		        		Log.d(TAG,"postMP=" + postDevLines.get(i).getMountPoint());
-		        		
+			        	if (preDevLines.get(j).getMountPoint().equals(newDevLines.get(i).getMountPoint()) == true) {
+			        		newDevLines.remove(i);
+			        		continue;
+			        	}
 		        	}
 		        }
 		        
@@ -113,6 +123,7 @@ public class SelectSourceFragment extends Fragment {
 		        	return;
 		        }
 		        
+		        MainActivity.setPreLines(preDevLines);
 		        MainActivity.setSrcLines(newDevLines);
 		        
 		        pager.setCurrentItem(MainConstants.PAGER_DST_INDEX, true);

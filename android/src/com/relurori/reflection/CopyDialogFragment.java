@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 public class CopyDialogFragment extends DialogFragment {
 
-	private final String TAG = CopyDialogFragment.class.getSimpleName();
+	private final String TAG = CopyDialogFragment.class.getCanonicalName();
 	
 	View mView = null;
 	

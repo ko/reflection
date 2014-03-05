@@ -8,7 +8,7 @@ import android.support.v4.app.DialogFragment;
 
 public class RestartDialogFragment extends DialogFragment {
 
-	public static String TAG = RestartDialogFragment.class.getSimpleName();
+	public static String TAG = RestartDialogFragment.class.getCanonicalName();
 	
 	public static RestartDialogFragment newInstance() {
 		RestartDialogFragment frag = new RestartDialogFragment();

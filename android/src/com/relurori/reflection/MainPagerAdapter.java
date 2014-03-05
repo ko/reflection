@@ -16,7 +16,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
 	private List<Fragment> fragments;
 	
-	private static final String TAG = MainPagerAdapter.class.getSimpleName();
+	private static final String TAG = MainPagerAdapter.class.getCanonicalName();
 	
 	public MainPagerAdapter(FragmentManager fm, List<Fragment> frags) {
 		super(fm);

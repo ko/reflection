@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 public class SelectDestinationFragment extends Fragment {
 
-	private String TAG = SelectDestinationFragment.class.getSimpleName();
+	private String TAG = SelectDestinationFragment.class.getCanonicalName();
 	
 	private View mView = null;
 	private MyViewPager pager = null;
@@ -58,7 +58,9 @@ public class SelectDestinationFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				
-				preDevLines = MainActivity.getSrcLines();
+				/** preLines + srcLine **/
+				preDevLines = MainActivity.getPreLines();
+				preDevLines.add(MainActivity.getSrcLines().get(0));
 				
 		        try {
 					postDevLines = MountPoint.getProcMountsLines();
@@ -67,19 +69,43 @@ public class SelectDestinationFragment extends Fragment {
 					e.printStackTrace();
 				}
 
-		        for (int i = 0; i < postDevLines.size(); i++) {
-		        	// TODO compare a larger set of info (devnode, mountpoint, etc.)
-		        	// for a better comparison?
-		        	if (preDevLines.get(i).getMountPoint().equals(postDevLines.get(i).getMountPoint()) == false) {
-		        		newDevLines.add(postDevLines.get(i));
+		        newDevLines.clear();
+		        for (ProcMountsLine pml : postDevLines) {
+		        	newDevLines.add(new ProcMountsLine(pml.getDevNode(),pml.getMountPoint()));
+		        }
+		        
+		        if (newDevLines.size() <= preDevLines.size()) {
+		        	// should never happen
+		        	Log.d(TAG,"size post is <= pre");
+		        	return;
+		        }
+		        
+		        for (int i = 0; i < newDevLines.size(); i++) {
+		        	for (int j = 0; j < preDevLines.size(); j++) {
+
+			        	// TODO compare a larger set of info (devnode, mountpoint, etc.)
+			        	// for a better comparison?
+		        		
+			        	if (preDevLines.get(j).getMountPoint().equals(newDevLines.get(i).getMountPoint()) == true) {
+			        		newDevLines.remove(i);
+			        		continue;
+			        	}
 		        	}
 		        }
+		        
+		        
 
 		        if (newDevLines.isEmpty()) {
 		        	Log.d(TAG,"empty dst");
 		        	Toast.makeText(getActivity().getBaseContext(), "Device not found.", Toast.LENGTH_LONG).show();
 		        	return;
 		        } 
+		        
+		        if (newDevLines.size() != 1) {
+		        	Log.d(TAG,"dst not 1");
+		        	Toast.makeText(getActivity(), "Destination finder is confused by " + newDevLines.size() + " choices... Please reset.", Toast.LENGTH_LONG).show();
+		        	return;
+		        }
 		        
 		        MainActivity.setDstLines(newDevLines);
 		        

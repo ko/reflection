@@ -17,7 +17,7 @@ import android.util.Log;
 
 public class FileUtils {
 
-	private static final String TAG = FileUtils.class.getSimpleName();
+	private static final String TAG = FileUtils.class.getCanonicalName();
 	
 	File src;
 	File dst;

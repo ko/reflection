@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class SyncDoneFragment extends Fragment {
 
-	public static final String TAG = SyncDoneFragment.class.getSimpleName();
+	public static final String TAG = SyncDoneFragment.class.getCanonicalName();
 	
 	private static View mView = null;
 	

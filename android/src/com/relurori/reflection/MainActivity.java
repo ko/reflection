@@ -24,7 +24,7 @@ import android.widget.Button;
 
 public class MainActivity extends FragmentActivity {
 
-	private final String TAG = MainActivity.class.getSimpleName();
+	private final String TAG = MainActivity.class.getCanonicalName();
 
 	private PagerAdapter mPagerAdapter = null;
 	private MyViewPager pager = null;
@@ -151,7 +151,11 @@ public class MainActivity extends FragmentActivity {
 	
 	public static void setSrcLines(List<ProcMountsLine> lines) {
 		srcLines = lines;
-		setSrc(lines.get(0).getMountPoint());
+		if (lines != null) {
+			setSrc(lines.get(0).getMountPoint());
+		} else {
+			setSrc(null);
+		}
 	}
 	
 	public static List<ProcMountsLine> getSrcLines() {
@@ -160,7 +164,11 @@ public class MainActivity extends FragmentActivity {
 	
 	public static void setDstLines(List<ProcMountsLine> lines) {
 		dstLines = lines;
-		setDst(lines.get(0).getMountPoint());
+		if (lines != null) {
+			setDst(lines.get(0).getMountPoint());
+		} else {
+			setDst(null);
+		}
 	}
 	
 	public static List<ProcMountsLine> getDstLines() {
